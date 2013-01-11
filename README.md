@@ -1,5 +1,5 @@
 CljFopLibrary
-==============
+=============
 The CljFopLibrary is a clojure wrapper library for Apache FOP.
 
 Author/Project Lead
