@@ -6,12 +6,43 @@
            [org.apache.poi.hssf.usermodel HSSFWorkbook]
            [org.apache.poi.xssf.usermodel XSSFWorkbook]))
 
+(def picture-type {:dib Workbook/PICTURE_TYPE_DIB
+                   :emf Workbook/PICTURE_TYPE_EMF
+                   :jpeg Workbook/PICTURE_TYPE_JPEG
+                   :pict Workbook/PICTURE_TYPE_PICT
+                   :png Workbook/PICTURE_TYPE_PNG
+                   :wmf Workbook/PICTURE_TYPE_WMF})
+
+(def sheet-state {:hidden Workbook/SHEET_STATE_HIDDEN
+                  :very-hidden Workbook/SHEET_STATE_VERY_HIDDEN
+                  :visible Workbook/SHEET_STATE_VISIBLE})
+
+(def missing-cell-policy {:create-null-as-blank Row/MissingCellPolicy/CREATE_NULL_AS_BLANK
+                          :return-blank-as-null Row/MissingCellPolicy/RETURN_BLANK_AS_NULL
+                          :return-null-and-blank Row/MissingCellPolicy/RETURN_NULL_AND_BLANK})
+
 (def cell-types {:numeric Cell/CELL_TYPE_NUMERIC
                  :string  Cell/CELL_TYPE_STRING
                  :formula Cell/CELL_TYPE_FORMULA
                  :blank   Cell/CELL_TYPE_BLANK
                  :boolean Cell/CELL_TYPE_BOOLEAN
                  :error   Cell/CELL_TYPE_ERROR})
+
+(def cell-align {:center CellStyle/ALIGN_CENTER
+                 :center-selection CellStyle/ALIGN_CENTER_SELECTION
+                 :fill CellStyle/ALIGN_FILL
+                 :general CellStyle/ALIGN_GENERAL
+                 :justify CellStyle/ALIGN_JUSTIFY
+                 :left CellStyle/ALIGN_LEFT
+                 :right CellStyle/ALIGN_RIGHT})
+
+(def cell-align-vertical {:bottom CellStyle/VERTICAL_BOTTOM
+                          :center CellStyle/VERTICAL_TOP
+                          :justify CellStyle/VERTICAL_JUSTIFY
+                          :top CellStyle/VERTICAL_TOP
+                          })
+
+(def cell-border {})
 
 ; init model
 (defn init-model [c args]
@@ -97,3 +128,12 @@
 
 (defn set-cell-type [cell type]
   (.setCellType cell type))
+
+; FIXME implement
+(defn- add-element-dispatch []
+  )
+(defmulti add-element #'add-element-dispatch
+  )
+(defmethod add-element :x :y
+  []
+  )

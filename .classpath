@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="unittest"/>
+	<classpathentry kind="src" path="example"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="classes"/>
 	<classpathentry kind="lib" path="lib/runtime/clojure.jar"/>
@@ -9,5 +10,6 @@
 	<classpathentry kind="lib" path="lib/runtime/commons-logging.jar"/>
 	<classpathentry kind="lib" path="lib/runtime/log4j.jar"/>
 	<classpathentry kind="lib" path="lib/runtime/poi.jar"/>
+	<classpathentry kind="lib" path="lib/runtime/CljJavaLibrary.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
