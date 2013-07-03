@@ -11,5 +11,11 @@
 	<classpathentry kind="lib" path="lib/runtime/log4j.jar"/>
 	<classpathentry kind="lib" path="lib/runtime/poi.jar"/>
 	<classpathentry kind="lib" path="lib/runtime/CljJavaLibrary.jar"/>
+	<classpathentry kind="lib" path="lib/runtime/CljLibrary.jar"/>
+	<classpathentry kind="lib" path="lib/runtime/dom4j.jar"/>
+	<classpathentry kind="lib" path="lib/runtime/poi-ooxml-schemas.jar"/>
+	<classpathentry kind="lib" path="lib/runtime/poi-ooxml.jar"/>
+	<classpathentry kind="lib" path="lib/runtime/stax-api.jar"/>
+	<classpathentry kind="lib" path="lib/runtime/xmlbeans.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -3,7 +3,7 @@
         [clojure.java.io]
         [org.soulspace.clj.poi.excel]))
 
+(def wb (workbook (input-stream "data/test/TestSheet1.xlsx") {}))
+
 (deftest excel-load1
   )
-
-(def wb (wb (input-stream "data/test/TestSheet1.xlsx")))

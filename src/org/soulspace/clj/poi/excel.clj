@@ -1,11 +1,12 @@
-(ns org.soulspace.clj.poi.ss
+(ns org.soulspace.clj.poi.excel
   (:use [org.soulspace.clj.java beans])
-  (:import [org.apache.poi.poifs Filesystem]
-           [org.apache.poi.ss.util CellRangeAddress]
-           [org.apache.poi.ss.usermodel Cell CellReference CellStyle DataFormat Font Row Sheet Workbook WorkbookFactory]
+  (:import [org.apache.poi.poifs.filesystem POIFSFileSystem]
+           [org.apache.poi.ss.util CellRangeAddress CellReference]
+           [org.apache.poi.ss.usermodel Cell CellStyle DataFormat DateUtil Font Row Sheet Workbook WorkbookFactory]
            [org.apache.poi.hssf.usermodel HSSFWorkbook]
            [org.apache.poi.xssf.usermodel XSSFWorkbook]))
 
+; constants
 (def picture-type {:dib Workbook/PICTURE_TYPE_DIB
                    :emf Workbook/PICTURE_TYPE_EMF
                    :jpeg Workbook/PICTURE_TYPE_JPEG
@@ -17,11 +18,11 @@
                   :very-hidden Workbook/SHEET_STATE_VERY_HIDDEN
                   :visible Workbook/SHEET_STATE_VISIBLE})
 
-(def missing-cell-policy {:create-null-as-blank Row/MissingCellPolicy/CREATE_NULL_AS_BLANK
-                          :return-blank-as-null Row/MissingCellPolicy/RETURN_BLANK_AS_NULL
-                          :return-null-and-blank Row/MissingCellPolicy/RETURN_NULL_AND_BLANK})
+(def missing-cell-policy {:create-null-as-blank Row/CREATE_NULL_AS_BLANK
+                          :return-blank-as-null Row/RETURN_BLANK_AS_NULL
+                          :return-null-and-blank Row/RETURN_NULL_AND_BLANK})
 
-(def cell-types {:numeric Cell/CELL_TYPE_NUMERIC
+(def cell-type {:numeric Cell/CELL_TYPE_NUMERIC
                  :string  Cell/CELL_TYPE_STRING
                  :formula Cell/CELL_TYPE_FORMULA
                  :blank   Cell/CELL_TYPE_BLANK
@@ -49,10 +50,13 @@
   (set-properties! c args)
   c)
 
+; workbook functions
 (defn workbook
   ([args]
-    (init-model HSSFWorkbook. args))
+    "creates a new workbook"
+    (init-model (HSSFWorkbook.) args))
   ([input args]
+    "creates a workbook from input"
     (init-model (WorkbookFactory/create input) args)))
 
 (defn read-workbook [wb input]
@@ -70,14 +74,25 @@
 (defn data-format [wb args]
   (init-model (.createDataFormat wb) args))
 
+; sheet functions
 (defn sheet [wb sheet-no args]
+  "creates a new sheet"
   (init-model (.createSheet wb sheet-no) args))
+
+(defn get-sheets [wb]
+  ; FIXME HSSF workbooks are not iterable, branch for special implementation
+  (seq wb))
 
 (defn get-sheet [wb sheet-no]
   (.getSheetAt wb sheet-no))
 
+; row functions
 (defn row [sheet row-no args]
+  "creates a new row"
   (init-model (.createRow sheet row-no) args))
+
+(defn get-rows [sheet]
+  (seq sheet))
 
 (defn get-row [sheet row-no]
   (.getRow sheet row-no))
@@ -85,14 +100,25 @@
 (defn physical-number-of-rows [sheet]
   (.getPhysicalNumberOfRows sheet))
 
+; cell functions
 (defn cell [row cell-no args]
+  "creates a new cell"
   (init-model (.createCell row cell-no) args))
+
+(defn get-cells [row]
+  (seq row))
 
 (defn get-cell [row cell-no]
   (.getCell row cell-no))
 
 (defn physical-number-of-cells [row]
   (.getPhysicalNumberOfCell row))
+
+(defn get-cell-type [cell]
+  (.getCellType cell))
+
+(defn set-cell-type [cell type]
+  (.setCellType cell type))
 
 (defn set-cell-value [cell value]
   (.setCellValue cell value))
@@ -101,7 +127,7 @@
 
 (defmethod get-cell-value (cell-type :numeric)
   [cell]
-  (if (.isCellDateFormatted cell)
+  (if (DateUtil/isCellDateFormatted cell)
     (.getDateCellValue cell)
     (.getNumericCellValue cell)))
 
@@ -109,6 +135,7 @@
   [cell]
   (.getString (.getRichStringCellValue cell)))
 
+; TODO check if this is desired or the calculated value should be returned
 (defmethod get-cell-value (cell-type :formula)
   [cell]
   (.getCellFormula cell))
@@ -118,22 +145,44 @@
     (.getBooleanCellValue cell))
 
 (defmethod get-cell-value (cell-type :blank)
-  [cell])
+  [cell]
+  "")
 
 (defmethod get-cell-value (cell-type :error)
-  [cell])
+  [cell]
+  (.getErrorCellValue cell))
 
-(defn get-cell-type [cell]
-  (.getCellType cell))
 
-(defn set-cell-type [cell type]
-  (.setCellType cell type))
+(defn get-cell-values [row]
+  (map get-cell-value (get-cells row)))
+
+(defn get-row-values [sheet]
+  (map get-cell-values (get-rows sheet)))
+
+(defn get-sheet-values [workbook]
+  (map get-row-values (get-sheets workbook)))
+
+
+; TODO type hierarchy
+(defmulti get-parent type)
+
+(defmethod get-parent Sheet
+  [element]
+  (.getWorkbook element))
+
+(defmethod get-parent Row
+  [element]
+  (.getSheet element))
+
+(defmethod get-parent Row
+  [element]
+  (.getRow element))
 
 ; FIXME implement
-(defn- add-element-dispatch []
-  )
-(defmulti add-element #'add-element-dispatch
-  )
-(defmethod add-element :x :y
-  []
-  )
+;(defn- add-element-dispatch []
+;  )
+;(defmulti add-element #'add-element-dispatch
+;  )
+;(defmethod add-element :x :y
+;  []
+;  )
