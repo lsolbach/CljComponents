@@ -8,7 +8,7 @@ Ludger Solbach
 
 Copyright
 ---------
-© 2011-2013 Ludger Solbach
+© 2013- Ludger Solbach
 
 License
 -------
@@ -16,12 +16,12 @@ License
 
 Code Repository
 ---------------
-[https://github.com/lsolbach/CljJavaLibrary] (https://github.com/lsolbach/CljJavaLibrary)
+[https://github.com/lsolbach/CljJavaLibrary] (https://github.com/lsolbach/CljPoiLibrary)
 
 History
 -------
 
-Version 0.1.0 (19.06.2013)
+Version 0.1.0 (--.--.2013)
 --------------------------
 * start of excel support
 * initial git import
