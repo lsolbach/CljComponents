@@ -3,11 +3,10 @@
  :project "org.soulspace.clj"
  :type "library"
  :version "0.1.0"
- :description "Clojure Java integration library"
+ :description "Clojure wrapper library for Apache FOP."
  :plugins ["global" "deps" "clojure" "package"]
- ; FIXME remove dependency to clojure contrib
  :dependencies [["org.clojure" "clojure" "1.3.0"]
-                ["org.soulspace.clj" "CljLibrary" "0.2.0"]
+                ["org.soulspace.clj" "CljLibrary" "0.3.0"]
                 ["org.soulspace.clj" "CljJavaLibrary" "0.2.0"]
                 ["org.apache.xmlgraphics" "fop" "1.0"]
                 ["org.apache.xmlgraphics" "batik-dom" "1.7"] ; transitive fop
