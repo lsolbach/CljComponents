@@ -5,5 +5,11 @@
 
 (def wb (workbook (input-stream "data/test/TestSheet1.xlsx") {}))
 
-(deftest excel-load1
+(deftest excel-create
+  )
+
+(deftest excel-save
+  )
+
+(deftest excel-load
   )

@@ -87,9 +87,10 @@
   (.getSheetAt wb sheet-no))
 
 ; row functions
-(defn row [sheet row-no args]
-  "creates a new row"
-  (init-model (.createRow sheet row-no) args))
+(defn row
+  ([sheet row-no args]
+    "creates a new row"
+    (init-model (.createRow sheet row-no) args)))
 
 (defn get-rows [sheet]
   (seq sheet))
@@ -101,9 +102,10 @@
   (.getPhysicalNumberOfRows sheet))
 
 ; cell functions
-(defn cell [row cell-no args]
-  "creates a new cell"
-  (init-model (.createCell row cell-no) args))
+(defn cell
+  ([row cell-no args]
+    "creates a new cell"
+    (init-model (.createCell row cell-no) args)))
 
 (defn get-cells [row]
   (seq row))
