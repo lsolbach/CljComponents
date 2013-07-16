@@ -5,7 +5,7 @@
  :version "0.1.0"
  :description "Clojure wrapper library for Apache FOP."
  :plugins ["global" "deps" "clojure" "package"]
- :dependencies [["org.clojure" "clojure" "1.3.0"]
+ :dependencies [["org.clojure" "clojure" "1.5.1"]
                 ["org.soulspace.clj" "CljLibrary" "0.3.0"]
                 ["org.soulspace.clj" "CljJavaLibrary" "0.2.0"]
                 ["org.apache.xmlgraphics" "fop" "1.0"]
