@@ -1,4 +1,4 @@
-(ns org.soulspace.clj.xml.fop.fop
+(ns org.soulspace.clj.fop.fop
   (:use [clojure.java.io]
         [org.soulspace.clj.java beans])
   (:import [javax.xml.parsers SAXParserFactory SAXParser]
