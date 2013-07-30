@@ -1,6 +1,6 @@
-Clj<X>Library
+CljXsltLibrary
 ==============
-The Clj<X>Library is a library .
+The CljXsltLibrary is a library for XSL Transformations.
 
 Author/Project Lead
 -------------------
