@@ -16,7 +16,7 @@ License
 
 Code Repository
 ---------------
-[https://github.com/lsolbach/CljJavaLibrary] (https://github.com/lsolbach/CljJavaLibrary)
+[https://github.com/lsolbach/CljFopLibrary] (https://github.com/lsolbach/CljFopLibrary)
 
 History
 -------
