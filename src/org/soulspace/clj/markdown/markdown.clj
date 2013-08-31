@@ -30,6 +30,16 @@
   [s]
   (str "#### " s))
 
+(defn h5
+  "Fifth level heading."
+  [s]
+  (str "##### " s))
+
+(defn h6
+  "Sixth level heading."
+  [s]
+  (str "###### " s))
+
 (defn p
   "Paragraph."
   [s]
