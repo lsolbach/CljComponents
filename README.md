@@ -1,6 +1,7 @@
 CljMarkdownLibrary
 ==================
-The CljMarkdownLibrary contains functions to generate markdown documents from clojure.
+The CljMarkdownLibrary contains functions to generate markdown documents with clojure.
+
 
 Author/Project Lead
 -------------------

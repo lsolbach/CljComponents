@@ -10,6 +10,10 @@
 (ns org.soulspace.clj.markdown.markdown
   (:require [clojure.string :as str]))
 
+(def ^:private indent (ref 0))
+(defn- inc-indent [] (dosync (alter indent inc)))
+(defn- dec-indent [] (dosync (alter indent dec)))
+
 (defn h1
   "First level heading."
   [s]
@@ -52,13 +56,17 @@
 
 (defn ul
   "Unordered list"
-  [coll]
-  )
+  [& coll]
+  (inc-indent)
+  (map #(str "* " % "\n") coll)
+  (dec-indent))
 
 (defn ol
   "Ordered list."
-  [coll]
-  )
+  [& coll]
+  (inc-indent)
+  (map #(str %1 ". " %2 "\n") (iterate inc 1) coll)
+  (dec-indent))
 
 (defn em
   "Emphasis."
