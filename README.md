@@ -2,6 +2,41 @@ CljMarkdownLibrary
 ==================
 The CljMarkdownLibrary contains functions to generate markdown documents with clojure.
 
+Example
+-------
+
+Executing this clojure namespace 
+
+```
+(ns md
+  (:use [org.soulspace.clj.markdown markdown]))
+
+(def md
+  (markdown
+    (h1 "Markdown Example")
+    (p "This is an example of the programmatic generation of markdown files with the CljMarkdown library.")
+    (h2 "Markdown Formats")
+    (p (str
+         "The CljMarkdownLibrary supports the following markdown formats:\n"
+         (ol (link "Markdown" "http://daringfireball.net/projects/markdown/")
+             (link "Github flavoured markdown" "https://help.github.com/articles/github-flavored-markdown"))))))
+
+(println md)
+```
+
+results in
+
+```
+Markdown Example
+================
+This is an example of the programmatic generation of markdown files with the CljMarkdown library.
+
+Markdown Formats
+----------------
+The CljMarkdownLibrary supports the following markdown formats:
+1. [Markdown](http://daringfireball.net/projects/markdown/)
+2. [Github flavoured markdown](https://help.github.com/articles/github-flavored-markdown)
+```
 
 Author/Project Lead
 -------------------

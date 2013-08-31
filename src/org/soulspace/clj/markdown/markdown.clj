@@ -14,6 +14,10 @@
 (defn- inc-indent [] (dosync (alter indent inc)))
 (defn- dec-indent [] (dosync (alter indent dec)))
 
+(defn markdown
+  [& coll]
+  (apply str coll))
+
 (defn h1
   "First level heading."
   [s]
@@ -46,8 +50,8 @@
 
 (defn p
   "Paragraph."
-  [s]
-  (str s "\n\n"))
+  [& coll]
+  (str (apply str coll) "\n\n"))
 
 (defn br
   "Line break."
@@ -58,15 +62,17 @@
   "Unordered list"
   [& coll]
   (inc-indent)
-  (map #(str "* " % "\n") coll)
-  (dec-indent))
+  (let [s (apply str (map #(str "* " % "\n") coll))]
+    (dec-indent)
+    s))
 
 (defn ol
   "Ordered list."
   [& coll]
   (inc-indent)
-  (map #(str %1 ". " %2 "\n") (iterate inc 1) coll)
-  (dec-indent))
+  (let [s (apply str (map #(str %1 ". " %2 "\n") (iterate inc 1) coll))]
+    (dec-indent)
+    s))
 
 (defn em
   "Emphasis."
@@ -100,32 +106,32 @@
 
 (defn link
   "Link."
-  [coll]
+  [& coll]
   (str "[" (first coll) "]" "(" (second coll) ")"))
 
 (defn link-id
   "Link."
-  [coll]
+  [& coll]
   (str "[" (first coll) "]" "[" (second coll) "]"))
 
 (defn link-ref
   "Link reference."
-  [coll]
+  [& coll]
   (str "[" (first coll) "]: " (second coll) (when (seq (nnext coll)) (str " \"" (nnext coll) "\""))))
 
 (defn image
   "Image."
-  [coll]
+  [& coll]
   (str "![" (first coll) "]" "(" (second coll) ")"))
 
 (defn image-id
   "Image."
-  [coll]
+  [& coll]
   (str "![" (first coll) "]" "[" (second coll) "]"))
 
 (defn image-ref
   "Image reference."
-  [coll]
+  [& coll]
   (str "![" (first coll) "]: " (second coll) (when (seq (nnext coll)) (str " \"" (nnext coll) "\""))))
 
 (defn hr
