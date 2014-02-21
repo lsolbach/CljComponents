@@ -9,7 +9,8 @@
 ;
 (ns org.soulspace.clj.jfreechart.chart
   (:use
-    [org.soulspace.clj.jfreechart.dataset])
+    [org.soulspace.clj.jfreechart.dataset]
+    [org.soulspace.clj.java beans])
   (:import
     [org.jfree.util TableOrder]
     [org.jfree.chart ChartFactory]
@@ -23,8 +24,30 @@
 (def table-order {:by-row TableOrder/BY_ROW
                   :by-column TableOrder/BY_COLUMN})
 
+; Plot and renderer functions
+(defn plot
+  "Returns the plot of the chart."
+  [chart]
+  (.getPlot chart))
+
+(defn renderer
+  "Returns the renderer of the plot."
+  [plot]
+  (.getRenderer plot))
+
+(defn set-plot-properties
+  "Sets the properties of the plot of the chart."
+  [chart props]
+  (set-properties! (plot chart) props))
+
+(defn set-renderer-properties
+  "Sets the properties of the renderer of the chart."
+  [chart props]
+  (set-properties! (renderer (plot chart)) props))
+
 ; Charts
-(defn area-chart 
+(defn area-chart
+  "Creates an area chart."
   ([title x-label y-label data orientation]
     (ChartFactory/createAreaChart title x-label y-label data (plot-orientation orientation) true false false))
   ([title x-label y-label data orientation legend]
@@ -35,6 +58,7 @@
     (ChartFactory/createAreaChart title x-label y-label data (plot-orientation orientation) legend tooltips urls)))
 
 (defn bar-chart 
+  "Creates a bar chart."
   ([title x-label y-label data orientation]
     (ChartFactory/createBarChart title x-label y-label data (plot-orientation orientation) true false false))
   ([title x-label y-label data orientation legend]
@@ -45,6 +69,7 @@
     (ChartFactory/createBarChart title x-label y-label data (plot-orientation orientation) legend tooltips urls)))
 
 (defn bar-chart-3d
+  "Creates a 3D bar chart."
   ([title x-label y-label data orientation]
     (ChartFactory/createBarChart3D title x-label y-label data (plot-orientation orientation) true false false))
   ([title x-label y-label data orientation legend]
@@ -55,12 +80,14 @@
     (ChartFactory/createBarChart3D title x-label y-label data (plot-orientation orientation) legend tooltips urls)))
 
 (defn box-and-whisker-chart
+  "Creates a box and wisker chart."
   ([title x-label y-label data]
     (ChartFactory/createBoxAndWhiskerChart title x-label y-label data true))
   ([title x-label y-label data legend]
     (ChartFactory/createBoxAndWhiskerChart title x-label y-label data legend)))
 
 (defn bubble-chart
+  "Creates a bubble chart."
   ([title x-label y-label data orientation]
     (ChartFactory/createBubbleChart title x-label y-label data (plot-orientation orientation) true false false))
   ([title x-label y-label data orientation legend]
@@ -71,12 +98,14 @@
     (ChartFactory/createBubbleChart title x-label y-label data (plot-orientation orientation) legend tooltips urls)))
 
 (defn candlestick-chart
+  "Creates a candle stick chart."
   ([title x-label y-label data]
     (ChartFactory/createCandlestickChart title x-label y-label data true))
   ([title x-label y-label data legend]
     (ChartFactory/createCandlestickChart title x-label y-label data legend)))
 
 (defn gantt-chart
+  "Creates a gantt chart."
   ([title x-label y-label data]
     (ChartFactory/createGanttChart title x-label y-label data true false false))
   ([title x-label y-label data legend]
@@ -87,12 +116,14 @@
     (ChartFactory/createGanttChart title x-label y-label data legend tooltips urls)))
 
 (defn high-low-chart
+  "Creates a high low chart."
   ([title x-label y-label data]
     (ChartFactory/createHighLowChart title x-label y-label data true))
   ([title x-label y-label data legend]
     (ChartFactory/createHighLowChart title x-label y-label data legend)))
 
 (defn histogram
+  "Creates a histogram."
   ([title x-label y-label data orientation]
     (ChartFactory/createHistogram title x-label y-label data (plot-orientation orientation) true false false))
   ([title x-label y-label data orientation legend]
@@ -103,6 +134,7 @@
     (ChartFactory/createHistogram title x-label y-label data (plot-orientation orientation) legend tooltips urls)))
 
 (defn line-chart
+  "Creates a line chart."
   ([title x-label y-label data orientation]
     (ChartFactory/createLineChart title x-label y-label data (plot-orientation orientation) true false false))
   ([title x-label y-label data orientation legend]
@@ -112,7 +144,8 @@
   ([title x-label y-label data orientation legend tooltips urls]
     (ChartFactory/createLineChart title x-label y-label data (plot-orientation orientation) legend tooltips urls)))
 
-(defn line-chart-3d 
+(defn line-chart-3d
+  "Creates a 3D line chart."
   ([title x-label y-label data orientation]
     (ChartFactory/createLineChart3D title x-label y-label data (plot-orientation orientation) true false false))
   ([title x-label y-label data orientation legend]
@@ -123,6 +156,7 @@
     (ChartFactory/createLineChart3D title x-label y-label data (plot-orientation orientation) legend tooltips urls)))
 
 (defn multiple-pie-chart 
+  "Creates a multiple pie chart."
   ([title data order]
     (ChartFactory/createMultiplePieChart title data (table-order order) true false false))
   ([title data order legend]
@@ -132,7 +166,8 @@
   ([title data order legend tooltips urls]
     (ChartFactory/createMultiplePieChart title data (table-order order) legend tooltips urls)))
 
-(defn multiple-pie-chart-3d 
+(defn multiple-pie-chart-3d
+  "Creates a 3D multiple pie chart."
   ([title data order]
     (ChartFactory/createMultiplePieChart3D title data (table-order order) true false false))
   ([title data order legend]
@@ -142,7 +177,8 @@
   ([title data order legend tooltips urls]
     (ChartFactory/createMultiplePieChart3D title data (table-order order) legend tooltips urls)))
 
-(defn pie-chart 
+(defn pie-chart
+  "Creates a pie chart."
   ([title data]
     (ChartFactory/createPieChart title data true false false))
   ([title data legend]
@@ -153,6 +189,7 @@
     (ChartFactory/createPieChart title data legend tooltips urls)))
 
 (defn pie-chart-3d 
+  "Creates a pie chart."
   ([title data]
     (ChartFactory/createPieChart3D title data true false false))
   ([title data legend]
@@ -163,6 +200,7 @@
     (ChartFactory/createPieChart3D title data legend tooltips urls)))
 
 (defn polar-chart
+  "Creates a polar chart."
   ([title data]
     (ChartFactory/createPolarChart title data true false false))
   ([title data legend]
@@ -172,7 +210,8 @@
   ([title data legend tooltips urls]
     (ChartFactory/createPolarChart title data legend tooltips urls)))
 
-(defn ring-chart 
+(defn ring-chart
+  "Creates a ring chart."
   ([title data]
     (ChartFactory/createRingChart title data true false false))
   ([title data legend]
@@ -183,6 +222,7 @@
     (ChartFactory/createRingChart title data legend tooltips urls)))
 
 (defn scatter-plot
+  "Creates a scatter plot."
   ([title x-label y-label data orientation]
     (ChartFactory/createScatterPlot title x-label y-label data (plot-orientation orientation) true false false))
   ([title x-label y-label data orientation legend]
@@ -193,6 +233,7 @@
     (ChartFactory/createScatterPlot title x-label y-label data (plot-orientation orientation) legend tooltips urls)))
 
 (defn stacked-bar-chart
+  "Creates a stacked bar chart."
   ([title x-label y-label data orientation]
     (ChartFactory/createStackedBarChart title x-label y-label data (plot-orientation orientation) true false false))
   ([title x-label y-label data orientation legend]
@@ -203,6 +244,7 @@
     (ChartFactory/createStackedBarChart title x-label y-label data (plot-orientation orientation) legend tooltips urls)))
 
 (defn stacked-bar-chart-3d 
+  "Creates a 3D stacked bar chart."
   ([title x-label y-label data orientation]
     (ChartFactory/createStackedBarChart3D title x-label y-label data (plot-orientation orientation) true false false))
   ([title x-label y-label data orientation legend]
@@ -213,6 +255,7 @@
     (ChartFactory/createStackedBarChart3D title x-label y-label data (plot-orientation orientation) legend tooltips urls)))
 
 (defn stacked-xy-area-chart
+  "Creates a stacked xy area chart."
   ([title x-label y-label data orientation]
     (ChartFactory/createStackedXYAreaChart title x-label y-label data (plot-orientation orientation) true false false))
   ([title x-label y-label data orientation legend]
@@ -223,6 +266,7 @@
     (ChartFactory/createStackedXYAreaChart title x-label y-label data (plot-orientation orientation) legend tooltips urls)))
 
 (defn time-series-chart
+  "Creates a time series chart."
   ([title x-label y-label data]
     (ChartFactory/createTimeSeriesChart title x-label y-label data true false false))
   ([title x-label y-label data legend]
@@ -233,6 +277,7 @@
     (ChartFactory/createTimeSeriesChart title x-label y-label data legend tooltips urls)))
 
 (defn wafer-map-chart
+  "Creates a wafer map chart."
   ([title data orientation]
     (ChartFactory/createWaferMapChart title data (plot-orientation orientation) true false false))
   ([title data orientation legend]
@@ -243,6 +288,7 @@
     (ChartFactory/createWaferMapChart title data (plot-orientation orientation) legend tooltips urls)))
 
 (defn waterfall-chart
+  "Creates a waterfall chart."
   ([title x-label y-label data orientation]
     (ChartFactory/createWaterfallChart title x-label y-label data (plot-orientation orientation) true false false))
   ([title x-label y-label data orientation legend]
@@ -252,7 +298,8 @@
   ([title x-label y-label data orientation legend tooltips urls]
     (ChartFactory/createWaterfallChart title x-label y-label data (plot-orientation orientation) legend tooltips urls)))
 
-(defn wind-plot 
+(defn wind-plot
+  "Creates a wind plot."
   ([title x-label y-label data]
     (ChartFactory/createWindPlot title x-label y-label data true false false))
   ([title x-label y-label data legend]
@@ -262,7 +309,8 @@
   ([title x-label y-label data legend tooltips urls]
     (ChartFactory/createWindPlot title x-label y-label data legend tooltips urls)))
 
-(defn xy-area-chart 
+(defn xy-area-chart
+  "Creates a xy area chart."
   ([title x-label y-label data orientation]
     (ChartFactory/createXYAreaChart title x-label y-label data (plot-orientation orientation) true false false))
   ([title x-label y-label data orientation legend]
@@ -273,6 +321,7 @@
     (ChartFactory/createXYAreaChart title x-label y-label data (plot-orientation orientation) legend tooltips urls)))
 
 (defn xy-bar-chart 
+  "Creates a xy bar chart."
   ([title x-label date-axis y-label data orientation]
     (ChartFactory/createXYBarChart title x-label date-axis y-label data (plot-orientation orientation) true false false))
   ([title x-label date-axis y-label data orientation legend]
@@ -282,7 +331,8 @@
   ([title x-label date-axis y-label data orientation legend tooltips urls]
     (ChartFactory/createXYBarChart title x-label date-axis y-label data (plot-orientation orientation) legend tooltips urls)))
 
-(defn xy-line-chart 
+(defn xy-line-chart
+  "Creates a xy line chart."
   ([title x-label y-label data orientation]
     (ChartFactory/createXYLineChart title x-label y-label data (plot-orientation orientation) true false false))
   ([title x-label y-label data orientation legend]
@@ -293,6 +343,7 @@
     (ChartFactory/createXYLineChart title x-label y-label data (plot-orientation orientation) legend tooltips urls)))
 
 (defn xy-step-area-chart
+  "Creates a xy step area chart."
   ([title x-label y-label data orientation]
     (ChartFactory/createXYStepAreaChart title x-label y-label data (plot-orientation orientation) true false false))
   ([title x-label y-label data orientation legend]
@@ -302,7 +353,8 @@
   ([title x-label y-label data orientation legend tooltips urls]
     (ChartFactory/createXYStepAreaChart title x-label y-label data (plot-orientation orientation) legend tooltips urls)))
 
-(defn xy-step-chart 
+(defn xy-step-chart
+  "Creates a xy step chart."
   ([title x-label y-label data orientation]
     (ChartFactory/createXYStepChart title x-label y-label data (plot-orientation orientation) true false false))
   ([title x-label y-label data orientation legend]

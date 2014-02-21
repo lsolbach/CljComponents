@@ -10,14 +10,13 @@
 (ns org.soulspace.clj.jfreechart.dataset
   (:import
     [org.jfree.data DefaultKeyedValue DefaultKeyedValues]
-    [org.jfree.data.general DefaultPieDataset ]
-    [org.jfree.data.category DefaultCategoryDataset]
+    [org.jfree.data.general DefaultPieDataset DefaultValueDataset]
+    [org.jfree.data.category DefaultCategoryDataset SlidingCategoryDataset]
     [org.jfree.data.gantt Task TaskSeries TaskSeriesCollection]
     [org.jfree.data.statistics
      DefaultBoxAndWhiskerCategoryDataset DefaultBoxAndWhiskerXYDataset
-     DefaultStatisticalCategoryDataset]
-    [org.jfree.data.xy XYSeries XYSeriesCollection]
-    ))
+     DefaultMultiValueCategoryDataset DefaultStatisticalCategoryDataset]
+    [org.jfree.data.xy XYSeries XYSeriesCollection]))
 
 ;
 ; Datasets
@@ -36,6 +35,12 @@
               (.addValue d key value)))))    
       d)))
 
+(defn value-dataset
+  ([]
+    (DefaultValueDataset.))
+  ([value]
+    (DefaultValueDataset. value)))
+
 (defn pie-dataset 
   ([]
     (DefaultPieDataset.))
@@ -47,7 +52,11 @@
             (let [[key value] item]
               (.setValue d key value)))))
       d)))
-  
+
+(defn multi-value-category-dataset
+  ([]
+    (DefaultMultiValueCategoryDataset.)))
+
 (defn category-dataset
   ([]
     (DefaultCategoryDataset.))
@@ -71,6 +80,10 @@
             (let [[mean std-deviation row-key column-key] item]
               (.add d mean std-deviation row-key column-key)))))
       d)))
+
+(defn sliding-category-dataset
+  [ds first-column max-columns]
+  (SlidingCategoryDataset. ds first-column max-columns))
 
 (defn task [desc start end]
   (Task. desc start end))
