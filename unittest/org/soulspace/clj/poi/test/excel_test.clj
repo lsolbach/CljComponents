@@ -12,7 +12,7 @@
         [clojure.java.io]
         [org.soulspace.clj.poi.excel]))
 
-(def wb (workbook (input-stream "data/test/TestSheet1.xlsx") {}))
+(def wb (create-workbook (input-stream "data/test/TestSheet1.xlsx") {}))
 
 (deftest excel-create
   )
