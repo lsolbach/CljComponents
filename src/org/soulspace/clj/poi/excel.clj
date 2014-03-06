@@ -9,10 +9,11 @@
 ;
 (ns org.soulspace.clj.poi.excel
   (:use [clojure.java.io]
+        [clojure.set :only [map-invert]]
         [org.soulspace.clj.java beans type-conversion])
   (:import [org.apache.poi.poifs.filesystem POIFSFileSystem]
            [org.apache.poi.ss.util CellRangeAddress CellReference]
-           [org.apache.poi.ss.usermodel Cell CellStyle DataFormat DateUtil Font Row Sheet Workbook WorkbookFactory]
+           [org.apache.poi.ss.usermodel Cell CellStyle DataFormat DateUtil Font IndexedColors Row Sheet Workbook WorkbookFactory]
            [org.apache.poi.hssf.usermodel HSSFWorkbook]
            [org.apache.poi.xssf.usermodel XSSFWorkbook]))
 
@@ -37,11 +38,11 @@
 
 (def cell-type
   {:numeric  Cell/CELL_TYPE_NUMERIC
-    :string  Cell/CELL_TYPE_STRING
-    :formula Cell/CELL_TYPE_FORMULA
-    :blank   Cell/CELL_TYPE_BLANK
-    :boolean Cell/CELL_TYPE_BOOLEAN
-    :error   Cell/CELL_TYPE_ERROR})
+   :string   Cell/CELL_TYPE_STRING
+   :formula  Cell/CELL_TYPE_FORMULA
+   :blank    Cell/CELL_TYPE_BLANK
+   :boolean  Cell/CELL_TYPE_BOOLEAN
+   :error    Cell/CELL_TYPE_ERROR})
 
 (def cell-align
   {:center           CellStyle/ALIGN_CENTER
@@ -74,19 +75,49 @@
    :thick               CellStyle/BORDER_THICK
    :thin                CellStyle/BORDER_THIN})
 
+(def cell-fill-style
+  {:no-fill             CellStyle/NO_FILL
+   :solid-foreground    CellStyle/SOLID_FOREGROUND
+   :fine-dots           CellStyle/FINE_DOTS
+   :alt-bars            CellStyle/ALT_BARS
+   :sparse-dots         CellStyle/SPARSE_DOTS
+   :thick-horz-bands    CellStyle/THICK_HORZ_BANDS
+   :thick-vert-bands    CellStyle/THICK_VERT_BANDS
+   :thick-backward-diag CellStyle/THICK_BACKWARD_DIAG
+   :thick-forward-diag  CellStyle/THICK_FORWARD_DIAG
+   :thin-horz-bands     CellStyle/THIN_HORZ_BANDS
+   :thin-vert-bands     CellStyle/THIN_VERT_BANDS
+   :thin-backward-diag  CellStyle/THIN_BACKWARD_DIAG
+   :thin-forward-diag   CellStyle/THIN_FORWARD_DIAG
+   :big-spots           CellStyle/BIG_SPOTS
+   :bricks              CellStyle/BRICKS
+   :squares             CellStyle/SQUARES
+   :diamonds            CellStyle/DIAMONDS
+   :less-dots           CellStyle/LESS_DOTS
+   :least-dots          CellStyle/LEAST_DOTS})
+
+(def picture-type-key (map-invert picture-type))
+(def sheet-state-key (map-invert sheet-state))
+(def missing-cell-policy-key (map-invert missing-cell-policy))
+(def cell-type-key (map-invert cell-type))
+(def cell-align-key (map-invert cell-align))
+(def cell-align-vertical-key (map-invert cell-align-vertical))
+(def cell-border-key (map-invert cell-border))
+(def cell-fill-style-key (map-invert cell-fill-style))
+
 (def ^{:dynamic true} *workbook*)
 (def ^{:dynamic true} *sheet*)
 (def ^{:dynamic true} *row*)
 (def ^{:dynamic true} *cell*)
 
-; init model
-(defn init-model [c args]
-  (set-properties! c args)
-  c)
-
 (defn to-int
+  "Coerces a (numeric) value to an integer."
   [value]
   (coerce java.lang.Integer/TYPE value))
+
+(defn color-index
+  [color]
+  (.getIndex color))
 
 ; cell functions
 (defn get-cells
@@ -95,111 +126,155 @@
   (seq row))
 
 (defn get-cell
-  [row cell-no]
-  (.getCell row cell-no))
+  "Returns the cell with the index cell-no of the row."
+  ([cell-no]
+    (get-cell *row* cell-no))
+  ([row cell-no]
+    (.getCell row cell-no)))
 
 (defn physical-number-of-cells
-  [row]
-  (.getPhysicalNumberOfCell row))
+  "Returns the physical number of cells in the row."
+  ([]
+    (physical-number-of-cells *row*))
+  ([row]
+    (.getPhysicalNumberOfCell row)))
 
 (defn first-cell-num
-  [row]
-  (.getFirstCellNum row))
+  "Returns the index of the first cell in the row."
+  ([]
+    (first-cell-num *row*))
+  ([row]
+    (.getFirstCellNum row)))
 
 (defn last-cell-num
-  [row]
-  (.getLastCellNum row))
+  "Returns the index of the last cell in the row."
+  ([]
+    (last-cell-num *row*))
+  ([row]
+    (.getLastCellNum row)))
 
 (defn get-cell-type
-  [cell]
-  (.getCellType cell))
+  "Returns the type of the cell."
+  ([]
+    (get-cell-type *cell*))
+  ([cell]
+    (cell-type-key (.getCellType cell))))
 
 (defn set-cell-type
-  [cell type]
-  (.setCellType cell type))
+  "Sets the type of the cell to type."
+  ([type]
+    (set-cell-type *cell* type))
+  ([cell type]
+    (.setCellType cell (cell-type type))))
 
 (defn get-cell-formula
-  [cell]
-  (when (= (get-cell-type cell) (cell-type :formula))
-    (.getCellFormula cell)))
+  "Returns the formula of the cell if the cell is of type :formula."
+  ([]
+    (get-cell-formula *cell*))
+  ([cell]
+    (when (= (get-cell-type cell) :formula)
+      (.getCellFormula cell))))
 
 (defn get-cell-hyperlink
-  [cell]
-  (.getHyperlink cell))
+  "Returns the hyperlink of the cell (if any)."
+  ([]
+    (get-cell-hyperlink *cell*))
+  ([cell]
+    (.getHyperlink cell)))
 
-(defn get-cell-result
-  [cell]
-  (when (= (get-cell-type cell) (cell-type :formula))
-    (.getCellValue cell)))
+(defn cell-result
+  "Returns the result of the formula evaluation if the cell is of type :formula."
+  ([cell]
+    (when (= (get-cell-type cell) :formula)
+      (.getCellValue cell))))
 
 (defn set-cell-value
+  "Sets the value of the cell."
   [cell value]
   (.setCellValue cell value))
 
-(defmulti get-cell-value get-cell-type)
+(defmulti cell-value
+  "Returns the value of the cell."
+  get-cell-type)
 
-(defmethod get-cell-value (cell-type :numeric)
+(defmethod cell-value :numeric
   [cell]
   (if (DateUtil/isCellDateFormatted cell)
     (.getDateCellValue cell)
     (.getNumericCellValue cell)))
 
-(defmethod get-cell-value (cell-type :string)
+(defmethod cell-value :string
   [cell]
   (.getString (.getRichStringCellValue cell)))
 
 ; TODO check if this is desired or the calculated value should be returned
-(defmethod get-cell-value (cell-type :formula)
+(defmethod cell-value :formula
   [cell]
   (.getCellFormula cell))
 
-(defmethod get-cell-value (cell-type :boolean)
+(defmethod cell-value :boolean
   [cell]
-    (.getBooleanCellValue cell))
+  (.getBooleanCellValue cell))
 
-(defmethod get-cell-value (cell-type :blank)
+(defmethod cell-value :blank
   [cell]
   "")
 
-(defmethod get-cell-value (cell-type :error)
+(defmethod cell-value :error
   [cell]
   (.getErrorCellValue cell))
 
-(defn get-cell-values [row]
-  (map get-cell-value (get-cells row)))
-
+(defn cell-values
+  "Returns a sequence of the cell values of the row."
+  ([]
+    (cell-values *row*))
+  ([row]
+    (map cell-value (get-cells row))))
 
 ; row functions
-(defn get-rows [sheet]
+(defn get-rows
+  "Returns a sequence of the rows of the sheet."
+  [sheet]
   (seq sheet))
 
-(defn get-row [sheet row-no]
+(defn get-row
+  "Returns the row with the index row-no of the sheet."
+  [sheet row-no]
   (.getRow sheet row-no))
 
-(defn physical-number-of-rows [sheet]
+(defn physical-number-of-rows
+  [sheet]
   (.getPhysicalNumberOfRows sheet))
 
-(defn get-row-values [sheet]
-  (map get-cell-values (get-rows sheet)))
+(defn row-values
+  [sheet]
+  (map cell-values (get-rows sheet)))
 
 ; sheet functions
-(defn get-sheets [wb]
+(defn get-sheets
+  [wb]
   ; TODO HSSF workbooks are not iterable, branch for special implementation
   (seq wb))
 
-(defn first-row-num [sheet]
+(defn first-row-num
+  [sheet]
   (.getFirstRowNum sheet))
 
-(defn last-row-num [sheet]
+(defn last-row-num
+  [sheet]
   (.getLastRowNum sheet))
 
-(defn get-sheet [wb sheet-no]
+(defn get-sheet
+  [wb sheet-no]
   (.getSheetAt wb sheet-no))
 
-(defn get-sheet-values [workbook]
-  (map get-row-values (get-sheets workbook)))
+(defn sheet-values
+  "Returns a sequence of values of the sheets in the workbook."
+  [workbook]
+  (map row-values (get-sheets workbook)))
 
 (defn row-insert-index
+  "Returns the index of next 'free' row in the sheet."
   [sheet]
   (let [last-index (last-row-num sheet)
         physical-rows (physical-number-of-rows sheet)]
@@ -208,6 +283,7 @@
       (+ last-index 1))))
 
 (defn cell-insert-index
+  "Returns the index of next 'free' cell in the row."
   [row]
   (let [last-index (last-cell-num row)]
     (if (== -1 last-index)
@@ -219,56 +295,58 @@
 ;
 (defn create-workbook
  "Creates a new workbook."
- ([args]
-   (set-properties! (XSSFWorkbook.) args))
- ([input args]
-   (set-properties! (WorkbookFactory/create input) args)))
+ ([opts]
+   (set-properties! (XSSFWorkbook.) opts))
+ ([file opts]
+   (with-open [input (input-stream file)]
+     (set-properties! (WorkbookFactory/create input) opts))))
 
 (defn create-hssf-workbook
   "Creates a new HSSF workbook."
-  [args]
-  (set-properties! (HSSFWorkbook.) args))
+  [opts]
+  (set-properties! (HSSFWorkbook.) opts))
 
 (defn create-sheet
   "Creates a new sheet."
-  ([wb args]
-    (set-properties! (.createSheet wb) args))
-  ([wb sheet-no args]
-    (set-properties! (.createSheet wb sheet-no) args)))
+  ([wb opts]
+    (set-properties! (.createSheet wb) opts))
+  ([wb sheet-no opts]
+    (set-properties! (.createSheet wb sheet-no) opts)))
 
 (defn create-row
   "Creates a new row."
-  ([sheet args]
-    (create-row sheet (to-int (row-insert-index sheet)) args))
-  ([sheet row-no args]
-    (set-properties! (.createRow sheet row-no) args)))
+  ([sheet opts]
+    (create-row sheet (to-int (row-insert-index sheet)) opts))
+  ([sheet row-no opts]
+    (set-properties! (.createRow sheet row-no) opts)))
 
 (defn create-cell
   "Creates a new cell."
-  ([row args value]
-    (create-cell row (to-int (cell-insert-index row)) args value))
-  ([row cell-no args value]
-    (set-cell-value (set-properties! (.createCell row cell-no) args) value)))
+  ([row opts value]
+    (create-cell row (to-int (cell-insert-index row)) opts value))
+  ([row cell-no opts value]
+    (set-cell-value (set-properties! (.createCell row cell-no) opts) value)))
 
 (defn create-cell-style
   "Creates a new cell style."
-  [wb args]
-  (set-properties! (.createCellStyle wb) args))
+  [wb opts]
+  (set-properties! (.createCellStyle wb) opts))
 
 (defn create-font
   "Creates a new font."
-  [wb args]
-  (set-properties! (.createFont wb) args))
+  [wb opts]
+  (set-properties! (.createFont wb) opts))
 
 (defn create-data-format
   "Creates a new data format."
-  [wb args]
-  (set-properties! (.createDataFormat wb) args))
+  [wb opts]
+  (set-properties! (.createDataFormat wb) opts))
 
 ; IO
 (defn read-workbook
-  [wb input]
-  (.read wb input))
+  [wb file]
+  (with-open [input (input-stream file)]
+    (.read wb input)))
 
 (defn write-workbook
   ([file]
@@ -279,7 +357,15 @@
       (.write wb out))))
 
 ; Macros
-(defmacro workbook
+(defmacro with-workbook
+  "Reads the workbook from file, executes the body with the workbook and writes the workbook back to file."
+  [file & body]
+  `(binding [*workbook* (create-workbook ~file {})]
+     ~@body
+     (write-workbook ~file)
+     *workbook*))
+
+(defmacro new-workbook
   "Creates a new workbook."
   [opts & body]
   `(let [opts# ~opts]
@@ -287,7 +373,7 @@
        ~@body
        *workbook*)))
 
-(defmacro sheet
+(defmacro new-sheet
   "Creates a new sheet in the current workbook."
   [opts & body]
   `(let [opts# ~opts]
@@ -295,7 +381,14 @@
        ~@body
        *sheet*)))
 
-(defmacro row
+(defmacro update-sheet
+  "Updates the sheet in the current workbook."
+  [sheet-no & body]
+  `(binding [*sheet* (get-sheet *workbook* ~sheet-no)]
+     ~@body
+     *sheet*))
+
+(defmacro new-row
   "Creates a new row in the current sheet."
   [opts & body]
   `(let [opts# ~opts]
@@ -303,23 +396,39 @@
        ~@body
        *row*)))
 
-(defn cell
-  "Creates a new cell in the current row."
-  [opts value]
-  (create-cell *row* opts value))
+(defmacro update-row
+  "Updates the row in the current sheet."
+  [row-no & body]
+  `(binding [*row* (get-row *sheet* ~row-no)]
+     ~@body
+     *row*))
 
-(defn cell-style
+(defmacro new-cell
+  "Creates a new cell in the current row."
+  [opts value & body]
+  `(let [opts# ~opts]
+     (binding [*cell* (create-cell *row* opts# ~value)]
+       ~@body
+       *cell*)))
+
+(defmacro update-cell
+  "Updates the cell in the current row."
+  [cell-no & body]
+  `(binding [*cell* (get-cell *row* ~cell-no)]
+     ~@body
+     *cell*))
+
+(defn new-cell-style
   "Creates a new cell style."
   [opts]
   (create-cell-style *workbook* opts))
 
-(defn font
+(defn new-font
   "Creates a new font."
   [opts]
   (create-font *workbook* opts))
 
-(defn data-format
+(defn new-data-format
   "Creates a new data format."
   [opts]
   (create-data-format *workbook* opts))
-

@@ -7,7 +7,7 @@
 ;
 (defn create-test []
   (let [wb (create-workbook {})]
-    (println wb)
+    ;(println wb)
     (let [sht (create-sheet wb {})]
       (println sht)
       (let [rw (create-row sht {})]
