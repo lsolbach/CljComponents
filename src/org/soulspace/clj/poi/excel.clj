@@ -381,7 +381,7 @@
        ~@body
        *sheet*)))
 
-(defmacro update-sheet
+(defmacro select-sheet
   "Updates the sheet in the current workbook."
   [sheet-no & body]
   `(binding [*sheet* (get-sheet *workbook* ~sheet-no)]
@@ -396,7 +396,7 @@
        ~@body
        *row*)))
 
-(defmacro update-row
+(defmacro select-row
   "Updates the row in the current sheet."
   [row-no & body]
   `(binding [*row* (get-row *sheet* ~row-no)]
@@ -411,7 +411,7 @@
        ~@body
        *cell*)))
 
-(defmacro update-cell
+(defmacro select-cell
   "Updates the cell in the current row."
   [cell-no & body]
   `(binding [*cell* (get-cell *row* ~cell-no)]
