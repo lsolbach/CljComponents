@@ -2,7 +2,7 @@
  :module "CljPoiLibrary"
  :project "org.soulspace.clj"
  :type :library
- :version "0.3.0"
+ :version "0.4.0"
  :description "An Apache POI library wrapper in clojure"
  :plugins ["global"
            ["org.soulspace.baumeister/DependencyPlugin"]

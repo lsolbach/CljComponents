@@ -42,7 +42,8 @@
    :formula  Cell/CELL_TYPE_FORMULA
    :blank    Cell/CELL_TYPE_BLANK
    :boolean  Cell/CELL_TYPE_BOOLEAN
-   :error    Cell/CELL_TYPE_ERROR})
+   :error    Cell/CELL_TYPE_ERROR
+   :null    nil})
 
 (def cell-align
   {:center           CellStyle/ALIGN_CENTER
@@ -119,18 +120,20 @@
   [color]
   (.getIndex color))
 
-; cell functions
-(defn get-cells
-  "Returns a sequence with the cells of the row."
-  [row]
-  (seq row))
+(defn physical-number-of-rows
+  "Returns the physical number of rows in the sheet."
+  [sheet]
+  (.getPhysicalNumberOfRows sheet))
 
-(defn get-cell
-  "Returns the cell with the index cell-no of the row."
-  ([cell-no]
-    (get-cell *row* cell-no))
-  ([row cell-no]
-    (.getCell row cell-no)))
+(defn first-row-num
+  "Returns the index of the first row in the sheet."
+  [sheet]
+  (.getFirstRowNum sheet))
+
+(defn last-row-num
+  "Returns the index of the last row in the sheet."
+  [sheet]
+  (.getLastRowNum sheet))
 
 (defn physical-number-of-cells
   "Returns the physical number of cells in the row."
@@ -153,12 +156,28 @@
   ([row]
     (.getLastCellNum row)))
 
+(defn get-column-index
+  "Returns the column index of the cell."
+  ([]
+    (get-column-index *cell*))
+  ([cell]
+    (.getColumnIndex cell)))
+
+(defn get-row-index
+  "Returns the row index of the cell."
+  ([]
+    (get-row-index *cell*))
+  ([cell]
+    (.getRowIndex cell)))
+
 (defn get-cell-type
   "Returns the type of the cell."
   ([]
     (get-cell-type *cell*))
   ([cell]
-    (cell-type-key (.getCellType cell))))
+    (if (nil? cell)
+      :null
+      (cell-type-key (.getCellType cell)))))
 
 (defn set-cell-type
   "Sets the type of the cell to type."
@@ -166,6 +185,29 @@
     (set-cell-type *cell* type))
   ([cell type]
     (.setCellType cell (cell-type type))))
+
+(defn get-cell
+  "Returns the cell with the index cell-no of the row."
+  ([cell-no]
+    (get-cell *row* cell-no))
+  ([row cell-no]
+    (if (nil? row)
+      nil
+      (.getCell row cell-no))))
+
+(defn get-cells
+  "Returns a sequence with the cells of the row."
+  [row]
+  (seq row))
+
+(defn get-all-cells
+  "Returns a sequence of all the defined cells in the row."
+  ([row]
+   (get-all-cells 0))
+  ([row min-cells]
+    (if (nil? row)
+      nil
+      (map #(get-cell row %) (range (min (first-cell-num row) 0) (max (last-cell-num row) min-cells))))))
 
 (defn get-cell-formula
   "Returns the formula of the cell if the cell is of type :formula."
@@ -224,6 +266,10 @@
   [cell]
   (.getErrorCellValue cell))
 
+(defmethod cell-value :null
+  [cell]
+  nil)
+
 (defn cell-values
   "Returns a sequence of the cell values of the row."
   ([]
@@ -231,9 +277,18 @@
   ([row]
     (map cell-value (get-cells row))))
 
+(defn all-cell-values
+  "Returns a sequence of the cell values of the row."
+  ([]
+    (all-cell-values *row* 0))
+  ([row]
+    (all-cell-values row 0))
+  ([row min-cells]
+    (map cell-value (get-all-cells row min-cells))))
+
 ; row functions
 (defn get-rows
-  "Returns a sequence of the rows of the sheet."
+  "Returns a sequence of the physically defined rows of the sheet."
   [sheet]
   (seq sheet))
 
@@ -242,36 +297,70 @@
   [sheet row-no]
   (.getRow sheet row-no))
 
-(defn physical-number-of-rows
+(defn get-all-rows
+  "Returns a sequence of all the defined rows in the sheet."
   [sheet]
-  (.getPhysicalNumberOfRows sheet))
+  (map #(get-row sheet %) (range (first-row-num sheet) (last-row-num sheet))))
 
 (defn row-values
+  "Returns a sequence of values of the sheets in the workbook."
   [sheet]
   (map cell-values (get-rows sheet)))
 
+(defn all-row-values
+  "Returns a sequence of values of the sheets in the workbook."
+  ([]
+    (all-row-values *sheet* 0))
+  ([sheet]
+    (all-row-values sheet 0))
+  ([sheet min-cells]
+    (map #(all-cell-values % min-cells) (filter seq (get-all-rows sheet)))))
+
+(defn all-row-cells
+  "Returns a sequence of values of the sheets in the workbook."
+  ([]
+    (all-row-values *sheet* 0))
+  ([sheet]
+    (all-row-values sheet 0))
+  ([sheet min-cells]
+    (map #(get-all-cells % min-cells) (filter seq (get-all-rows sheet)))))
+
 ; sheet functions
 (defn get-sheets
+  "Returns a sequence of the sheets in the workbook."
   [wb]
   ; TODO HSSF workbooks are not iterable, branch for special implementation
   (seq wb))
 
-(defn first-row-num
-  [sheet]
-  (.getFirstRowNum sheet))
-
-(defn last-row-num
-  [sheet]
-  (.getLastRowNum sheet))
-
 (defn get-sheet
+  "Returns the sheet at the given index."
   [wb sheet-no]
   (.getSheetAt wb sheet-no))
 
 (defn sheet-values
-  "Returns a sequence of values of the sheets in the workbook."
-  [workbook]
-  (map row-values (get-sheets workbook)))
+  "Returns a sequence of phyically defined values of the sheets in the workbook."
+  ([]
+    (sheet-values *workbook*))
+  ([workbook]
+    (map row-values (get-sheets workbook))))
+
+(defn all-sheet-values
+  "Returns a sequence of all the values of the sheets in the workbook. Returns at least 'min-cells' values per row."
+  ([]
+    (all-sheet-values *workbook* 0 0))
+  ([workbook]
+    (all-sheet-values workbook 0))
+  ([workbook min-cells]
+    (map #(all-row-values % min-cells) (get-sheets workbook))))
+
+(defn all-sheet-cells
+  "Returns a sequence of all the cells of the sheets in the workbook. Returns at least 'min-cells' cells per row."
+  ([]
+    (all-sheet-cells *workbook* 0))
+  ([workbook]
+    (all-sheet-cells workbook 0))
+  ([workbook min-cells]
+    (map #(all-row-cells %  min-cells) (get-sheets workbook))))
 
 (defn row-insert-index
   "Returns the index of next 'free' row in the sheet."
