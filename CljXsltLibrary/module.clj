@@ -9,8 +9,8 @@
            ["org.soulspace.baumeister/ClojurePlugin"]
            ["org.soulspace.baumeister/ClojureTestPlugin"]
            ["org.soulspace.baumeister/PackagePlugin"]]
- :dependencies [["org.clojure" "clojure, 1.5.1"]
-                ["xalan" "xalan" "2.7.1"] ; TODO check version
-                ["xalan" "serializer" "2.7.1"] ; TODO check version, check transitive
+ :dependencies [["org.clojure/clojure, 1.5.1"]
+                ["xalan/xalan, 2.7.1"] ; TODO check version
+                ["xalan/serializer, 2.7.1"] ; TODO check version, check transitive
                 ]
  ]
