@@ -117,6 +117,7 @@
   (coerce java.lang.Integer/TYPE value))
 
 (defn color-index
+  "Returns the index of the color."
   [color]
   (.getIndex color))
 
@@ -433,11 +434,16 @@
 
 ; IO
 (defn read-workbook
-  [wb file]
-  (with-open [input (input-stream file)]
-    (.read wb input)))
+  "Reads a workbook from file."
+  ([file]
+    (with-open [input (input-stream file)]
+      (.read *workbook* input)))
+  ([wb file]
+    (with-open [input (input-stream file)]
+      (.read wb input))))
 
 (defn write-workbook
+  "Writes a workbook to file."
   ([file]
     (with-open [out (output-stream file)]
       (.write *workbook* out)))
