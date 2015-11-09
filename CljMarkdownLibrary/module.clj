@@ -2,7 +2,7 @@
  :module "CljMarkdownLibrary"
  :project "org.soulspace.clj"
  :type :library
- :version "0.1.0"
+ :version "0.1.1"
  :description "The CljMarkdownLibrary contains functions to generate markdown documents from clojure."
  :project-lead "Ludger Solbach"
  :provider "soulspace.org"
@@ -12,5 +12,5 @@
            ["org.soulspace.baumeister/ClojurePlugin"]
            ["org.soulspace.baumeister/ClojureTestPlugin"]
            ["org.soulspace.baumeister/PackagePlugin"]]
- :dependencies [["org.clojure/clojure, 1.5.1"]]
+ :dependencies [["org.clojure/clojure, 1.7.0"]]
  ]
