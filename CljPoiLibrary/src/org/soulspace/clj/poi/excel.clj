@@ -106,6 +106,7 @@
 (def cell-border-key (map-invert cell-border))
 (def cell-fill-style-key (map-invert cell-fill-style))
 
+; defines the current values, which will be bound thread locally by the new and select macros
 (def ^{:dynamic true} *workbook*)
 (def ^{:dynamic true} *sheet*)
 (def ^{:dynamic true} *row*)
@@ -121,6 +122,17 @@
   [color]
   (.getIndex color))
 
+(defn get-sheets
+  "Returns a sequence of the sheets in the workbook."
+  [wb]
+  ; TODO HSSF workbooks are not iterable, branch for special implementation
+  (seq wb))
+
+(defn get-sheet
+  "Returns the sheet at the given index."
+  [wb sheet-no]
+  (.getSheetAt wb sheet-no))
+
 (defn physical-number-of-rows
   "Returns the physical number of rows in the sheet."
   [sheet]
@@ -135,6 +147,21 @@
   "Returns the index of the last row in the sheet."
   [sheet]
   (.getLastRowNum sheet))
+
+(defn get-rows
+  "Returns a sequence of the physically defined rows of the sheet."
+  [sheet]
+  (seq sheet))
+
+(defn get-row
+  "Returns the row with the index row-no of the sheet."
+  [sheet row-no]
+  (.getRow sheet row-no))
+
+(defn get-all-rows
+  "Returns a sequence of all the defined rows in the sheet."
+  [sheet]
+  (map #(get-row sheet %) (range (first-row-num sheet) (last-row-num sheet))))
 
 (defn physical-number-of-cells
   "Returns the physical number of cells in the row."
@@ -287,22 +314,6 @@
   ([row min-cells]
     (map cell-value (get-all-cells row min-cells))))
 
-; row functions
-(defn get-rows
-  "Returns a sequence of the physically defined rows of the sheet."
-  [sheet]
-  (seq sheet))
-
-(defn get-row
-  "Returns the row with the index row-no of the sheet."
-  [sheet row-no]
-  (.getRow sheet row-no))
-
-(defn get-all-rows
-  "Returns a sequence of all the defined rows in the sheet."
-  [sheet]
-  (map #(get-row sheet %) (range (first-row-num sheet) (last-row-num sheet))))
-
 (defn row-values
   "Returns a sequence of values of the sheets in the workbook."
   [sheet]
@@ -327,17 +338,6 @@
     (map #(get-all-cells % min-cells) (filter seq (get-all-rows sheet)))))
 
 ; sheet functions
-(defn get-sheets
-  "Returns a sequence of the sheets in the workbook."
-  [wb]
-  ; TODO HSSF workbooks are not iterable, branch for special implementation
-  (seq wb))
-
-(defn get-sheet
-  "Returns the sheet at the given index."
-  [wb sheet-no]
-  (.getSheetAt wb sheet-no))
-
 (defn sheet-values
   "Returns a sequence of phyically defined values of the sheets in the workbook."
   ([]
@@ -451,6 +451,22 @@
     (with-open [out (output-stream file)]
       (.write wb out))))
 
+
+(defn new-cell-style
+  "Creates a new cell style in the current workbook."
+  [opts]
+  (create-cell-style *workbook* opts))
+
+(defn new-font
+  "Creates a new font in the current workbook."
+  [opts]
+  (create-font *workbook* opts))
+
+(defn new-data-format
+  "Creates a new data format in the current workbook."
+  [opts]
+  (create-data-format *workbook* opts))
+
 ; Macros
 (defmacro with-workbook
   "Reads the workbook from file, executes the body with the workbook and writes the workbook back to file."
@@ -512,18 +528,3 @@
   `(binding [*cell* (get-cell *row* ~cell-no)]
      ~@body
      *cell*))
-
-(defn new-cell-style
-  "Creates a new cell style."
-  [opts]
-  (create-cell-style *workbook* opts))
-
-(defn new-font
-  "Creates a new font."
-  [opts]
-  (create-font *workbook* opts))
-
-(defn new-data-format
-  "Creates a new data format."
-  [opts]
-  (create-data-format *workbook* opts))
