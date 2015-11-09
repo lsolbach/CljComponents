@@ -11,7 +11,7 @@
   (:import [java.io PrintWriter]
            [org.apache.commons.net PrintCommandListener]
            [org.apache.commons.net.ftp FTP FTPClient FTPClientConfig FTPReply])
-  (:use [clojure.java.io]
+  (:use [clojure.java.io :only [input-stream]]
         [org.soulspace.clj.java beans]
         [org.soulspace.clj.net command-listener]
         [org.soulspace.clj.net.ftp ftp-file ftp-reply]))
