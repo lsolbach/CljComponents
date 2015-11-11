@@ -5,7 +5,6 @@
  :version "0.4.1"
  :description "An Apache POI library wrapper in clojure"
  :plugins ["global"
-           ["org.soulspace.baumeister/DependencyPlugin"]
            ["org.soulspace.baumeister/ClojurePlugin"]
            ["org.soulspace.baumeister/ClojureTestPlugin"]
            ["org.soulspace.baumeister/PackagePlugin"]]

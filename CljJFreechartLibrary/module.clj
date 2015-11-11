@@ -5,7 +5,6 @@
  :version "0.2.1"
  :description "A library for the integration of JFreechart in clojure"
  :plugins ["global"
-           ["org.soulspace.baumeister/DependencyPlugin"]
            ["org.soulspace.baumeister/ClojurePlugin"]
            ["org.soulspace.baumeister/ClojureTestPlugin"]
            ["org.soulspace.baumeister/PackagePlugin"]]
