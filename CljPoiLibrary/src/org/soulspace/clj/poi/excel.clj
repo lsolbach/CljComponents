@@ -432,7 +432,30 @@
   [wb opts]
   (set-properties! (.createDataFormat wb) opts))
 
+(defn create-cell-range-address
+  "Creates a cell range address."
+  ([v]
+    (CellRangeAddress/valueOf v))
+  ([start-row end-row start-column end-column]
+    (CellRangeAddress. start-row end-row start-column end-column)))
+
+;
+;
+;
+(defn add-merge-region
+  "Defines merged cells in a sheet."
+  ([cell-range-address]
+    (.addMergedRegion *sheet* cell-range-address))
+  ([sheet cell-range-address]
+    (.addMergedRegion s cell-range-address))
+  ([start-row end-row start-column end-column]
+    (.addMergedRegion *sheet* (create-cell-range-address start-row end-row start-column end-column)))
+  ([sheet start-row end-row start-column end-column]
+    (.addMergedRegion s (create-cell-range-address start-row end-row start-column end-column))))
+
+;
 ; IO
+;
 (defn read-workbook
   "Reads a workbook from file."
   ([file]
@@ -451,7 +474,9 @@
     (with-open [out (output-stream file)]
       (.write wb out))))
 
-
+;
+; Conveniance functions
+;
 (defn new-cell-style
   "Creates a new cell style in the current workbook."
   [opts]
