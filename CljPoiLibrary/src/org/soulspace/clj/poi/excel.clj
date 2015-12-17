@@ -442,16 +442,16 @@
 ;
 ;
 ;
-(defn add-merge-region
+(defn add-merged-region
   "Defines merged cells in a sheet."
   ([cell-range-address]
     (.addMergedRegion *sheet* cell-range-address))
   ([sheet cell-range-address]
-    (.addMergedRegion s cell-range-address))
+    (.addMergedRegion sheet cell-range-address))
   ([start-row end-row start-column end-column]
     (.addMergedRegion *sheet* (create-cell-range-address start-row end-row start-column end-column)))
   ([sheet start-row end-row start-column end-column]
-    (.addMergedRegion s (create-cell-range-address start-row end-row start-column end-column))))
+    (.addMergedRegion sheet (create-cell-range-address start-row end-row start-column end-column))))
 
 ;
 ; IO
