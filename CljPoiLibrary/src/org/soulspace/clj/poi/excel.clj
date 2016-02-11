@@ -14,8 +14,8 @@
   (:import [org.apache.poi.poifs.filesystem POIFSFileSystem]
            [org.apache.poi.ss.util CellRangeAddress CellReference]
            [org.apache.poi.ss.usermodel Cell CellStyle DataFormat DateUtil Font IndexedColors Row Sheet Workbook WorkbookFactory]
-           [org.apache.poi.hssf.usermodel HSSFWorkbook]
-           [org.apache.poi.xssf.usermodel XSSFWorkbook]))
+           [org.apache.poi.hssf.usermodel HSSFWorkbook DVConstraint]
+           [org.apache.poi.xssf.usermodel XSSFWorkbook XSSFDataValidationConstraint XSSFDataValidationHelper]))
 
 ; constants
 (def picture-type
@@ -112,10 +112,20 @@
 (def ^{:dynamic true} *row*)
 (def ^{:dynamic true} *cell*)
 
+(defn xssf-workbook?
+  "Checks if the given workbook is a xssf workbook (a.k.a. an '.xlsx' file)."
+  [wb]
+  )
+
 (defn to-int
   "Coerces a (numeric) value to an integer."
   [value]
   (coerce java.lang.Integer/TYPE value))
+
+(defn color
+  "Creates an 'extended' color."
+  ([r g b]
+    (XSSFColor. (java.awt.Color r g b))))
 
 (defn color-index
   "Returns the index of the color."
@@ -264,7 +274,7 @@
   (.setCellValue cell value))
 
 (defmulti cell-value
-  "Returns the value of the cell."
+  "Returns the value of the cell (based on the type of the cell)."
   get-cell-type)
 
 (defmethod cell-value :numeric
