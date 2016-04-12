@@ -15,7 +15,7 @@
            [org.apache.poi.ss.util CellRangeAddress CellReference]
            [org.apache.poi.ss.usermodel Cell CellStyle DataFormat DateUtil Font IndexedColors Row Sheet Workbook WorkbookFactory]
            [org.apache.poi.hssf.usermodel HSSFWorkbook DVConstraint]
-           [org.apache.poi.xssf.usermodel XSSFWorkbook XSSFDataValidationConstraint XSSFDataValidationHelper]))
+           [org.apache.poi.xssf.usermodel XSSFWorkbook XSSFDataValidationConstraint XSSFDataValidationHelper XSSFColor]))
 
 ; constants
 (def picture-type
@@ -124,8 +124,10 @@
 
 (defn color
   "Creates an 'extended' color."
+  ([rgb]
+    (XSSFColor. (java.awt.Color. rgb)))
   ([r g b]
-    (XSSFColor. (java.awt.Color r g b))))
+    (XSSFColor. (java.awt.Color. r g b))))
 
 (defn color-index
   "Returns the index of the color."
