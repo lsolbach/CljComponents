@@ -8,15 +8,15 @@
 ;   You must not remove this notice, or any other, from this software.
 ;
 (ns md
-  (:use [org.soulspace.clj.markdown markdown]))
+  (:require [org.soulspace.clj.markdown.markdown :as md]))
 
 (def md
-  (markdown
-    (h1 "Markdown Example")
-    (p "This is an example of the programmatic generation of markdown files with the CljMarkdown library.")
-    (h2 "Markdown Formats")
-    (p "The CljMarkdownLibrary supports the following markdown formats:\n"
-       (ol (link "Markdown" "http://daringfireball.net/projects/markdown/")
-           (link "Github flavoured markdown" "https://help.github.com/articles/github-flavored-markdown")))))
+  (md/markdown
+    (md/h1 "Markdown Example")
+    (md/p "This is an example of the programmatic generation of markdown files with the CljMarkdown library.")
+    (md/h2 "Markdown Formats")
+    (md/p "The CljMarkdownLibrary supports the following markdown formats:\n"
+       (md/ol (md/link "Markdown" "http://daringfireball.net/projects/markdown/")
+           (md/link "Github flavoured markdown" "https://help.github.com/articles/github-flavored-markdown")))))
 
 (println md)
