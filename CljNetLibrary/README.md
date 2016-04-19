@@ -1,6 +1,7 @@
 CljNetLibrary
 =============
-The CljFtpLibrary provides a clojure wrapper for Apache Commons Net.
+The CljNetLibrary provides a clojure wrapper for Apache Commons Net.
+As of version 0.2.0 it just provides a wrapper for the FtpClient.
 
 Author/Project Lead
 -------------------
@@ -8,7 +9,7 @@ Ludger Solbach
 
 Copyright
 ---------
-Â© 2014 Ludger Solbach
+© 2014-2016 Ludger Solbach
 
 License
 -------

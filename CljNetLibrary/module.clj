@@ -2,7 +2,7 @@
  :module "CljNetLibrary"
  :project "org.soulspace.clj"
  :type :library
- :version "0.1.1"
+ :version "0.2.0"
  :description "The CljNetLibrary provides a clojure wrapper for Apache Commons Net."
  :project-lead "Ludger Solbach"
  :provider "soulspace.org"
@@ -11,7 +11,7 @@
            ["org.soulspace.baumeister/ClojurePlugin"]
            ["org.soulspace.baumeister/PackagePlugin"]
            ["org.soulspace.baumeister/DistributionPlugin"]]
- :dependencies [["org.clojure/clojure, 1.7.0"]
-                ["commons-net/commons-net, 3.3"]
-                ["org.soulspace.clj/CljJavaLibrary, 0.6.1"]]
+ :dependencies [["org.clojure/clojure, 1.8.0"]
+                ["commons-net/commons-net, 3.4"]
+                ["org.soulspace.clj/CljJavaLibrary, 0.7.0"]]
  ]
