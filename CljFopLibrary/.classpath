@@ -13,7 +13,6 @@
 	<classpathentry kind="lib" path="build/lib/runtime/batik-ext.jar"/>
 	<classpathentry kind="lib" path="build/lib/runtime/batik-extension.jar"/>
 	<classpathentry kind="lib" path="build/lib/runtime/batik-gvt.jar"/>
-	<classpathentry kind="lib" path="build/lib/runtime/batik-js.jar"/>
 	<classpathentry kind="lib" path="build/lib/runtime/batik-parser.jar"/>
 	<classpathentry kind="lib" path="build/lib/runtime/batik-script.jar"/>
 	<classpathentry kind="lib" path="build/lib/runtime/batik-svg-dom.jar"/>
