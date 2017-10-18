@@ -3,7 +3,7 @@
  :project "org.soulspace.clj"
  :type :library
  :version "0.3.0"
- :description "A library for the integration of JFreechart in clojure"
+ :description "The CljJFreechartLibrary is a library for the integration of JFreechart in Clojure"
  :plugins [["org.soulspace.baumeister/ClojurePlugin"]
            ["org.soulspace.baumeister/ClojureTestPlugin"]
            ["org.soulspace.baumeister/PackagePlugin"]]
