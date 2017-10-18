@@ -4,6 +4,7 @@
  :type :library
  :version "0.3.0"
  :description "The CljJFreechartLibrary is a library for the integration of JFreechart in Clojure"
+ :scm-url "https://github.com/lsolbach/CljComponents"
  :plugins [["org.soulspace.baumeister/ClojurePlugin"]
            ["org.soulspace.baumeister/ClojureTestPlugin"]
            ["org.soulspace.baumeister/PackagePlugin"]]

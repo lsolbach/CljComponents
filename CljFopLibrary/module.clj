@@ -4,6 +4,7 @@
  :type :library
  :version "0.2.0"
  :description "The CljFopLibrary is a Clojure wrapper library for Apache FOP"
+ :scm-url "https://github.com/lsolbach/CljComponents"
  :plugins [["org.soulspace.baumeister/ClojurePlugin"]
            ["org.soulspace.baumeister/ClojureTestPlugin"]
            ["org.soulspace.baumeister/PackagePlugin"]]

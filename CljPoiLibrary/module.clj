@@ -4,6 +4,7 @@
  :type :library
  :version "0.5.0"
  :description "An Apache POI library wrapper in clojure"
+ :scm-url "https://github.com/lsolbach/CljComponents"
  :plugins [["org.soulspace.baumeister/ClojurePlugin"]
            ["org.soulspace.baumeister/ClojureTestPlugin"]
            ["org.soulspace.baumeister/PackagePlugin"]]

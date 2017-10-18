@@ -1,6 +1,6 @@
 (defproject org.soulspace.clj/CljNetLibrary "0.2.0"
   :description "The CljNetLibrary provides a clojure wrapper for Apache Commons Net"
-  :url "https://github.com/lsolbach/CljComponents/CljNetLibrary"
+  :url "https://github.com/lsolbach/CljComponents"
   :license {:name "Eclipse Public License"
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.8.0"]
