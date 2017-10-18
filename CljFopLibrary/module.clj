@@ -3,7 +3,7 @@
  :project "org.soulspace.clj"
  :type :library
  :version "0.2.0"
- :description "Clojure wrapper library for Apache FOP."
+ :description "The CljFopLibrary is a Clojure wrapper library for Apache FOP"
  :plugins [["org.soulspace.baumeister/ClojurePlugin"]
            ["org.soulspace.baumeister/ClojureTestPlugin"]
            ["org.soulspace.baumeister/PackagePlugin"]]
