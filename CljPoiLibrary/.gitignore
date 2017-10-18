@@ -1,5 +1,8 @@
-build/
-bin/
-dist/
-lib/
-classes/
+/build/
+/bin/
+/dist/
+/lib/
+/classes/
+target
+pom.xml
+.lein-failures

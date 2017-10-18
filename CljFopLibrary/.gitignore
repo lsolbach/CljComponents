@@ -3,3 +3,6 @@
 /dist/
 /lib/
 /classes/
+target
+pom.xml
+.lein-failures
