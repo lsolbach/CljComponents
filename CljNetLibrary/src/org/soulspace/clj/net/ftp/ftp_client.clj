@@ -16,7 +16,7 @@
         [org.soulspace.clj.net command-listener]
         [org.soulspace.clj.net.ftp ftp-file ftp-reply]))
 
-; used to bind the ftp client thread locally in with-ftp-connection 
+; used to bind the ftp client thread locally in with-ftp-connection
 (def
   ^{:dynamic true :doc "The client to use for operations within with-ftp-connection."}
   *ftp-client*)
@@ -35,20 +35,20 @@
 (defn ftp-client-config
   "Create an ftp client configuration."
   ([]
-    (FTPClientConfig.))
+   (FTPClientConfig.))
   ([opts]
-    (let [c (FTPClientConfig.)]
-      (set-properties! c opts)
-      c)))
+   (let [c (FTPClientConfig.)]
+     (set-properties! c opts)
+     c)))
 
 ; "Configure the FTP client with the given configuration."
 (defmulti configure type)
 
-(defmethod configure FTPClientConfig 
+(defmethod configure FTPClientConfig
   [cfg]
   (configure *ftp-client* cfg))
 
-(defmethod configure clojure.lang.IPersistentMap 
+(defmethod configure clojure.lang.IPersistentMap
   [cfg]
   (configure *ftp-client* (ftp-client-config cfg)))
 
@@ -56,55 +56,55 @@
   "Creates an ftp client. Sets opts as properties of the client, apart from an optional map under :configuration,
    which is used to create an FTPClientConfiguration."
   ([]
-    (FTPClient.))
+   (FTPClient.))
   ([opts]
-    (let [c (FTPClient.)]
-      (set-properties! (dissoc opts :configuration))
-      (when-let [cfg (:configuration opts)]
-        (.configure c (ftp-client-config cfg)))
-      c)))
+   (let [c (FTPClient.)]
+     (set-properties! (dissoc opts :configuration))
+     (when-let [cfg (:configuration opts)]
+       (.configure c (ftp-client-config cfg)))
+     c)))
 
 (defn connected?
   "Check wether the ftp client is connected."
   ([]
-    (connected? *ftp-client*))
+   (connected? *ftp-client*))
   ([ftp]
-    (.isConnected ftp)))
+   (.isConnected ftp)))
 
 (defn get-reply-code
   "Returns the reply code of the last command."
   ([]
-    (get-reply-code *ftp-client*))
+   (get-reply-code *ftp-client*))
   ([ftp]
-    (.getReplyCode ftp)))
+   (.getReplyCode ftp)))
 
 (defn success?
   "Check wether the ftp command was successful."
   ([]
-    (success? *ftp-client*))
+   (success? *ftp-client*))
   ([ftp]
-    (positive-completion? (get-reply-code ftp))))
+   (positive-completion? (get-reply-code ftp))))
 
 (defn intermediate-success?
   ""
   ([]
-    (intermediate-success? *ftp-client*))
+   (intermediate-success? *ftp-client*))
   ([ftp]
-    (positive-intermediate? (get-reply-code ftp))))
+   (positive-intermediate? (get-reply-code ftp))))
 
 (defn login
   "Log into the ftp server."
   ([user pw]
-    (login *ftp-client* user pw))
+   (login *ftp-client* user pw))
   ([ftp user pw]
-    (.login ftp user pw)))
+   (.login ftp user pw)))
 
 (defn logout
   "Log out of the ftp server."
   ([]
-    (logout *ftp-client*))
+   (logout *ftp-client*))
   ([ftp]
-    (.logout ftp)))
+   (.logout ftp)))
 
 (defn disconnect
   "Disconnect from the ftp server."
@@ -116,20 +116,20 @@
 (defn connect
   "Connect to the ftp server."
   ([ftp host]
-    (connect ftp host 21))
+   (connect ftp host 21))
   ([ftp host port]
-    (.connect ftp host port)
-    (let [success (success? ftp)]
-      (if-not success
-        (disconnect ftp))
-      success)))
+   (.connect ftp host port)
+   (let [success (success? ftp)]
+     (if-not success
+       (disconnect ftp))
+     success)))
 
 (defn status
   "Issues an FTP STAT command."
   ([]
-    (.getStatus *ftp-client*))
+   (.getStatus *ftp-client*))
   ([pathname]
-    (.getStatus *ftp-client* pathname)))
+   (.getStatus *ftp-client* pathname)))
 
 (defn abort
   "Aborts a transfer in progress."
@@ -164,16 +164,16 @@
 (defn list-directories
   "List the directories on the ftp server."
   ([]
-    (.listDirectories *ftp-client*))
+   (.listDirectories *ftp-client*))
   ([dir]
-    (.listDirectories *ftp-client* dir)))
+   (.listDirectories *ftp-client* dir)))
 
 (defn list-files
   "List the files on the ftp server."
   ([]
-    (.listFiles *ftp-client*))
+   (.listFiles *ftp-client*))
   ([dir]
-    (.listFiles *ftp-client* dir)))
+   (.listFiles *ftp-client* dir)))
 
 (defn append-file
   "Append the input stream a file on the ftp server."
@@ -213,9 +213,9 @@
 (defn store-unique-file
   "Store a file with a unique name on the ftp server."
   ([input-stream]
-    (.storeUniqueFile *ftp-client* input-stream))
+   (.storeUniqueFile *ftp-client* input-stream))
   ([pathname input-stream]
-    (.storeUniqueFile *ftp-client* pathname input-stream)))
+   (.storeUniqueFile *ftp-client* pathname input-stream)))
 
 (defn store-file-stream
   "Store a file stream on the ftp server."
@@ -225,9 +225,9 @@
 (defn store-unique-file-stream
   "Store a file stream with a unique name on the ftp server."
   ([]
-    (.storeUniqueFileStream *ftp-client*))
+   (.storeUniqueFileStream *ftp-client*))
   ([pathname]
-    (.storeUniqueFileStream *ftp-client* pathname)))
+   (.storeUniqueFileStream *ftp-client* pathname)))
 
 (defn enter-local-active-mode
   []

@@ -14,8 +14,8 @@
 
 (defn print-command-listener
   ([]
-    (PrintCommandListener. (PrintWriter. System/out) true))
+   (PrintCommandListener. (PrintWriter. System/out) true))
   ([print-stream]
-    (PrintCommandListener. (PrintWriter. print-stream) true))
+   (PrintCommandListener. (PrintWriter. print-stream) true))
   ([print-stream suppress-login]
-    (PrintCommandListener. (PrintWriter. print-stream) suppress-login)))
+   (PrintCommandListener. (PrintWriter. print-stream) suppress-login)))

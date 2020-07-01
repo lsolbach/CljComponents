@@ -114,8 +114,8 @@
 
 (defn xssf-workbook?
   "Checks if the given workbook is a xssf workbook (a.k.a. an '.xlsx' file)."
-  [wb]
-  )
+  [wb])
+
 
 (defn to-int
   "Coerces a (numeric) value to an integer."
@@ -125,9 +125,9 @@
 (defn color
   "Creates an 'extended' color."
   ([rgb]
-    (XSSFColor. (java.awt.Color. rgb)))
+   (XSSFColor. (java.awt.Color. rgb)))
   ([r g b]
-    (XSSFColor. (java.awt.Color. r g b))))
+   (XSSFColor. (java.awt.Color. r g b))))
 
 (defn color-index
   "Returns the index of the color."
@@ -178,62 +178,62 @@
 (defn physical-number-of-cells
   "Returns the physical number of cells in the row."
   ([]
-    (physical-number-of-cells *row*))
+   (physical-number-of-cells *row*))
   ([row]
-    (.getPhysicalNumberOfCell row)))
+   (.getPhysicalNumberOfCell row)))
 
 (defn first-cell-num
   "Returns the index of the first cell in the row."
   ([]
-    (first-cell-num *row*))
+   (first-cell-num *row*))
   ([row]
-    (.getFirstCellNum row)))
+   (.getFirstCellNum row)))
 
 (defn last-cell-num
   "Returns the index of the last cell in the row."
   ([]
-    (last-cell-num *row*))
+   (last-cell-num *row*))
   ([row]
-    (.getLastCellNum row)))
+   (.getLastCellNum row)))
 
 (defn get-column-index
   "Returns the column index of the cell."
   ([]
-    (get-column-index *cell*))
+   (get-column-index *cell*))
   ([cell]
-    (.getColumnIndex cell)))
+   (.getColumnIndex cell)))
 
 (defn get-row-index
   "Returns the row index of the cell."
   ([]
-    (get-row-index *cell*))
+   (get-row-index *cell*))
   ([cell]
-    (.getRowIndex cell)))
+   (.getRowIndex cell)))
 
 (defn get-cell-type
   "Returns the type of the cell."
   ([]
-    (get-cell-type *cell*))
+   (get-cell-type *cell*))
   ([cell]
-    (if (nil? cell)
-      :null
-      (cell-type-key (.getCellType cell)))))
+   (if (nil? cell)
+     :null
+     (cell-type-key (.getCellType cell)))))
 
 (defn set-cell-type
   "Sets the type of the cell to type."
   ([type]
-    (set-cell-type *cell* type))
+   (set-cell-type *cell* type))
   ([cell type]
-    (.setCellType cell (cell-type type))))
+   (.setCellType cell (cell-type type))))
 
 (defn get-cell
   "Returns the cell with the index cell-no of the row."
   ([cell-no]
-    (get-cell *row* cell-no))
+   (get-cell *row* cell-no))
   ([row cell-no]
-    (if (nil? row)
-      nil
-      (.getCell row cell-no))))
+   (if (nil? row)
+     nil
+     (.getCell row cell-no))))
 
 (defn get-cells
   "Returns a sequence with the cells of the row."
@@ -245,30 +245,30 @@
   ([row]
    (get-all-cells 0))
   ([row min-cells]
-    (if (nil? row)
-      nil
-      (map #(get-cell row %) (range (min (first-cell-num row) 0) (max (last-cell-num row) min-cells))))))
+   (if (nil? row)
+     nil
+     (map #(get-cell row %) (range (min (first-cell-num row) 0) (max (last-cell-num row) min-cells))))))
 
 (defn get-cell-formula
   "Returns the formula of the cell if the cell is of type :formula."
   ([]
-    (get-cell-formula *cell*))
+   (get-cell-formula *cell*))
   ([cell]
-    (when (= (get-cell-type cell) :formula)
-      (.getCellFormula cell))))
+   (when (= (get-cell-type cell) :formula)
+     (.getCellFormula cell))))
 
 (defn get-cell-hyperlink
   "Returns the hyperlink of the cell (if any)."
   ([]
-    (get-cell-hyperlink *cell*))
+   (get-cell-hyperlink *cell*))
   ([cell]
-    (.getHyperlink cell)))
+   (.getHyperlink cell)))
 
 (defn cell-result
   "Returns the result of the formula evaluation if the cell is of type :formula."
   ([cell]
-    (when (= (get-cell-type cell) :formula)
-      (.getCellValue cell))))
+   (when (= (get-cell-type cell) :formula)
+     (.getCellValue cell))))
 
 (defn set-cell-value
   "Sets the value of the cell."
@@ -313,18 +313,18 @@
 (defn cell-values
   "Returns a sequence of the cell values of the row."
   ([]
-    (cell-values *row*))
+   (cell-values *row*))
   ([row]
-    (map cell-value (get-cells row))))
+   (map cell-value (get-cells row))))
 
 (defn all-cell-values
   "Returns a sequence of the cell values of the row."
   ([]
-    (all-cell-values *row* 0))
+   (all-cell-values *row* 0))
   ([row]
-    (all-cell-values row 0))
+   (all-cell-values row 0))
   ([row min-cells]
-    (map cell-value (get-all-cells row min-cells))))
+   (map cell-value (get-all-cells row min-cells))))
 
 (defn row-values
   "Returns a sequence of values of the sheets in the workbook."
@@ -334,46 +334,46 @@
 (defn all-row-values
   "Returns a sequence of values of the sheets in the workbook."
   ([]
-    (all-row-values *sheet* 0))
+   (all-row-values *sheet* 0))
   ([sheet]
-    (all-row-values sheet 0))
+   (all-row-values sheet 0))
   ([sheet min-cells]
-    (map #(all-cell-values % min-cells) (filter seq (get-all-rows sheet)))))
+   (map #(all-cell-values % min-cells) (filter seq (get-all-rows sheet)))))
 
 (defn all-row-cells
   "Returns a sequence of values of the sheets in the workbook."
   ([]
-    (all-row-values *sheet* 0))
+   (all-row-values *sheet* 0))
   ([sheet]
-    (all-row-values sheet 0))
+   (all-row-values sheet 0))
   ([sheet min-cells]
-    (map #(get-all-cells % min-cells) (filter seq (get-all-rows sheet)))))
+   (map #(get-all-cells % min-cells) (filter seq (get-all-rows sheet)))))
 
 ; sheet functions
 (defn sheet-values
   "Returns a sequence of phyically defined values of the sheets in the workbook."
   ([]
-    (sheet-values *workbook*))
+   (sheet-values *workbook*))
   ([workbook]
-    (map row-values (get-sheets workbook))))
+   (map row-values (get-sheets workbook))))
 
 (defn all-sheet-values
   "Returns a sequence of all the values of the sheets in the workbook. Returns at least 'min-cells' values per row."
   ([]
-    (all-sheet-values *workbook* 0 0))
+   (all-sheet-values *workbook* 0 0))
   ([workbook]
-    (all-sheet-values workbook 0))
+   (all-sheet-values workbook 0))
   ([workbook min-cells]
-    (map #(all-row-values % min-cells) (get-sheets workbook))))
+   (map #(all-row-values % min-cells) (get-sheets workbook))))
 
 (defn all-sheet-cells
   "Returns a sequence of all the cells of the sheets in the workbook. Returns at least 'min-cells' cells per row."
   ([]
-    (all-sheet-cells *workbook* 0))
+   (all-sheet-cells *workbook* 0))
   ([workbook]
-    (all-sheet-cells workbook 0))
+   (all-sheet-cells workbook 0))
   ([workbook min-cells]
-    (map #(all-row-cells %  min-cells) (get-sheets workbook))))
+   (map #(all-row-cells %  min-cells) (get-sheets workbook))))
 
 (defn row-insert-index
   "Returns the index of next 'free' row in the sheet."
@@ -398,10 +398,10 @@
 (defn create-workbook
  "Creates a new workbook."
  ([opts]
-   (set-properties! (XSSFWorkbook.) opts))
+  (set-properties! (XSSFWorkbook.) opts))
  ([file opts]
-   (with-open [input (input-stream file)]
-     (set-properties! (WorkbookFactory/create input) opts))))
+  (with-open [input (input-stream file)]
+    (set-properties! (WorkbookFactory/create input) opts))))
 
 (defn create-hssf-workbook
   "Creates a new HSSF workbook."
@@ -411,23 +411,23 @@
 (defn create-sheet
   "Creates a new sheet."
   ([wb opts]
-    (set-properties! (.createSheet wb) opts))
+   (set-properties! (.createSheet wb) opts))
   ([wb sheet-no opts]
-    (set-properties! (.createSheet wb sheet-no) opts)))
+   (set-properties! (.createSheet wb sheet-no) opts)))
 
 (defn create-row
   "Creates a new row."
   ([sheet opts]
-    (create-row sheet (to-int (row-insert-index sheet)) opts))
+   (create-row sheet (to-int (row-insert-index sheet)) opts))
   ([sheet row-no opts]
-    (set-properties! (.createRow sheet row-no) opts)))
+   (set-properties! (.createRow sheet row-no) opts)))
 
 (defn create-cell
   "Creates a new cell."
   ([row opts value]
-    (create-cell row (to-int (cell-insert-index row)) opts value))
+   (create-cell row (to-int (cell-insert-index row)) opts value))
   ([row cell-no opts value]
-    (set-cell-value (set-properties! (.createCell row cell-no) opts) value)))
+   (set-cell-value (set-properties! (.createCell row cell-no) opts) value)))
 
 (defn create-cell-style
   "Creates a new cell style."
@@ -447,9 +447,9 @@
 (defn create-cell-range-address
   "Creates a cell range address."
   ([v]
-    (CellRangeAddress/valueOf v))
+   (CellRangeAddress/valueOf v))
   ([start-row end-row start-column end-column]
-    (CellRangeAddress. start-row end-row start-column end-column)))
+   (CellRangeAddress. start-row end-row start-column end-column)))
 
 ;
 ;
@@ -457,13 +457,13 @@
 (defn add-merged-region
   "Defines merged cells in a sheet."
   ([cell-range-address]
-    (.addMergedRegion *sheet* cell-range-address))
+   (.addMergedRegion *sheet* cell-range-address))
   ([sheet cell-range-address]
-    (.addMergedRegion sheet cell-range-address))
+   (.addMergedRegion sheet cell-range-address))
   ([start-row end-row start-column end-column]
-    (.addMergedRegion *sheet* (create-cell-range-address start-row end-row start-column end-column)))
+   (.addMergedRegion *sheet* (create-cell-range-address start-row end-row start-column end-column)))
   ([sheet start-row end-row start-column end-column]
-    (.addMergedRegion sheet (create-cell-range-address start-row end-row start-column end-column))))
+   (.addMergedRegion sheet (create-cell-range-address start-row end-row start-column end-column))))
 
 ;
 ; IO
@@ -471,20 +471,20 @@
 (defn read-workbook
   "Reads a workbook from file."
   ([file]
-    (with-open [input (input-stream file)]
-      (.read *workbook* input)))
+   (with-open [input (input-stream file)]
+     (.read *workbook* input)))
   ([wb file]
-    (with-open [input (input-stream file)]
-      (.read wb input))))
+   (with-open [input (input-stream file)]
+     (.read wb input))))
 
 (defn write-workbook
   "Writes a workbook to file."
   ([file]
-    (with-open [out (output-stream file)]
-      (.write *workbook* out)))
+   (with-open [out (output-stream file)]
+     (.write *workbook* out)))
   ([file wb]
-    (with-open [out (output-stream file)]
-      (.write wb out))))
+   (with-open [out (output-stream file)]
+     (.write wb out))))
 
 ;
 ; Conveniance functions

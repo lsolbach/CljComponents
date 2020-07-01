@@ -18,5 +18,5 @@
 
 (defn draw-chart-with-graphics2d
   ([chart rectangle2d graphics2d]
-    (.draw chart graphics2d rectangle2d)
-    graphics2d))
+   (.draw chart graphics2d rectangle2d)
+   graphics2d))

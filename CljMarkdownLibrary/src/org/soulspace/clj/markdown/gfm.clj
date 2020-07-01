@@ -9,7 +9,7 @@
 ;
 (ns org.soulspace.clj.markdown.gfm)
 
-; github flavoured markdown with additional formatting 
+; github flavoured markdown with additional formatting
 
 (defn strike-through
   "Strike through text."
@@ -19,7 +19,6 @@
 (defn fenced-code
   "Fenced code."
   ([s]
-    (str "```\n" s "```\n"))
+   (str "```\n" s "```\n"))
   ([s lang]
-    (str "```" lang "\n" s "```\n")))
-
+   (str "```" lang "\n" s "```\n")))

@@ -12,7 +12,7 @@
   (:use [clojure.set :only [map-invert]]))
 
 ; TODO convert keywords to lower case
-(def reply-code 
+(def reply-code
   "Map of reply code keywords to reply codes."
   {
    :restart-marker                                  FTPReply/RESTART_MARKER
@@ -65,8 +65,8 @@
    :request-denied                                  FTPReply/REQUEST_DENIED
    :failed-security-check                           FTPReply/FAILED_SECURITY_CHECK
    :requested-prot-level-not-supported              FTPReply/REQUESTED_PROT_LEVEL_NOT_SUPPORTED
-   :extended-port-failure                           FTPReply/EXTENDED_PORT_FAILURE
-   })
+   :extended-port-failure                           FTPReply/EXTENDED_PORT_FAILURE})
+
 
 (def reply-key
   "Map of reply codes to reply code keywords."
