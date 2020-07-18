@@ -7,12 +7,12 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 ;
-(ns org.soulspace.clj.markdown.markdown
+(ns org.soulspace.clj.markdown.markdown-dsl
   (:require [clojure.string :as str]))
 
-(def ^:private indent (ref 0))
-(defn- inc-indent [] (dosync (alter indent inc)))
-(defn- dec-indent [] (dosync (alter indent dec)))
+(def ^:private indent (atom 0))
+(defn- inc-indent [] (swap! indent inc))
+(defn- dec-indent [] (swap! indent dec))
 
 (defn markdown
   [& coll]

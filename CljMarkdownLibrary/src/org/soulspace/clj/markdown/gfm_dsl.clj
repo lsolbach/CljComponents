@@ -7,7 +7,7 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 ;
-(ns org.soulspace.clj.markdown.gfm)
+(ns org.soulspace.clj.markdown.gfm-dsl)
 
 ; github flavoured markdown with additional formatting
 
