@@ -13,5 +13,4 @@
            ["org.soulspace.baumeister/DistributionPlugin"]]
  :dependencies [["org.clojure/clojure, 1.8.0"]
                 ["commons-net/commons-net, 3.4"]
-                ["org.soulspace.clj/CljJavaLibrary, 0.7.0"]]
- ]
+                ["org.soulspace.clj/CljJavaLibrary, 0.7.0"]]]
