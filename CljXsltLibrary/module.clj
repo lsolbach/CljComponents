@@ -10,6 +10,4 @@
            ["org.soulspace.baumeister/PackagePlugin"]]
  :dependencies [["org.clojure/clojure, 1.8.0"]
                 ["xalan/xalan, 2.7.1"] ; TODO check version
-                ["xalan/serializer, 2.7.1"] ; TODO check version, check transitive
-                ]
- ]
+                ["xalan/serializer, 2.7.1"]]] ; TODO check version, check transitive

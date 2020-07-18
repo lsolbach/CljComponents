@@ -10,5 +10,4 @@
            ["org.soulspace.baumeister/PackagePlugin"]]
  :dependencies [["org.clojure/clojure, 1.8.0"]
                 ["org.soulspace.clj/CljJavaLibrary, 0.7.0"]
-                ["org.apache.poi/poi-ooxml, 3.14"]]
- ]
+                ["org.apache.poi/poi-ooxml, 3.14"]]]
