@@ -1,20 +1,16 @@
 CljNetLibrary
 =============
-The CljNetLibrary provides a clojure wrapper for Apache Commons Net.
-As of version 0.2.0 it just provides a wrapper for the FtpClient.
-
-Author/Project Lead
--------------------
-Ludger Solbach
+The cmp.net library provides a Clojure wrapper for Apache Commons Net.
+As of version 0.3.0 it provides a wrapper for the FtpClient.
 
 Copyright
 ---------
-© 2014-2016 Ludger Solbach
+Â© 2014-2020 Ludger Solbach
 
 License
 -------
-[Eclipse Public License 1.0] (http://www.eclipse.org/legal/epl-v10.html "EPL 1.0")
+[Eclipse Public License 1.0](http://www.eclipse.org/legal/epl-v10.html)
 
 Code Repository
 ---------------
-[https://github.com/lsolbach/CljNetLibrary] (https://github.com/lsolbach/CljNetLibrary)
+[CljComponents on GitHub](https://github.com/lsolbach/CljComponents)

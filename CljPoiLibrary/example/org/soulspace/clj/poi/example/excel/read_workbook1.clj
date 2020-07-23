@@ -7,9 +7,9 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 ;
-(ns org.soulspace.clj.poi.example.excel.read-workbook1
+(ns org.soulspace.cmp.poi.example.excel.read-workbook1
   (:use [clojure.java.io]
-        [org.soulspace.clj.poi excel]))
+        [org.soulspace.cmp.poi excel]))
 
 (def wb (create-workbook (file "data/test/TestSheet1.xlsx")
                   {:missingCellPolicy (missing-cell-policy :create-null-as-blank)}))

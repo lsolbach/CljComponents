@@ -7,7 +7,7 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 ;
-(ns org.soulspace.clj.net.ftp.ftp-reply
+(ns org.soulspace.cmp.net.ftp.ftp-reply
   (:import [org.apache.commons.net.ftp FTPReply])
   (:use [clojure.set :only [map-invert]]))
 

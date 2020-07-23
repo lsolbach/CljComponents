@@ -7,7 +7,7 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 ;
-(ns org.soulspace.clj.xml.xslt.xalan
+(ns org.soulspace.cmp.xslt.xalan
   (:import [javax.xml.transform TransformerFactory Transformer]
            [javax.xml.transform.stream StreamSource StreamResult]
            [java.io FileOutputStream]))

@@ -7,8 +7,8 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 ;
-(ns org.soulspace.clj.poi.example.excel.examples
-  (:use [org.soulspace.clj.poi excel])
+(ns org.soulspace.cmp.poi.example.excel.examples
+  (:use [org.soulspace.cmp.poi excel])
   (:import [org.apache.poi.ss.usermodel IndexedColors]))
 
 ; 

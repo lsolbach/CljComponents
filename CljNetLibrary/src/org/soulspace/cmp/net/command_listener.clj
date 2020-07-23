@@ -7,7 +7,7 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 ;
-(ns org.soulspace.clj.net.command-listener
+(ns org.soulspace.cmp.net.command-listener
   (:use [org.soulspace.clj.java beans])
   (:import [java.io PrintWriter]
            [org.apache.commons.net PrintCommandListener]))

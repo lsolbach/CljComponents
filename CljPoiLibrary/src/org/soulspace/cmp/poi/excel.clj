@@ -7,10 +7,11 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 ;
-(ns org.soulspace.clj.poi.excel
-  (:use [clojure.java.io]
-        [clojure.set :only [map-invert]]
-        [org.soulspace.clj.java beans type-conversion])
+(ns org.soulspace.cmp.poi.excel
+  (:require [clojure.java.io :as io]
+            [clojure.set :as set]
+            [org.soulspace.clj.java.beans :as b]
+            [org.soulspace.clj.type-conversion :as tc])
   (:import [org.apache.poi.poifs.filesystem POIFSFileSystem]
            [org.apache.poi.ss.util CellRangeAddress CellReference]
            [org.apache.poi.ss.usermodel Cell CellStyle DataFormat DateUtil Font IndexedColors Row Sheet Workbook WorkbookFactory]
@@ -97,14 +98,14 @@
    :less-dots           CellStyle/LESS_DOTS
    :least-dots          CellStyle/LEAST_DOTS})
 
-(def picture-type-key (map-invert picture-type))
-(def sheet-state-key (map-invert sheet-state))
-(def missing-cell-policy-key (map-invert missing-cell-policy))
-(def cell-type-key (map-invert cell-type))
-(def cell-align-key (map-invert cell-align))
-(def cell-align-vertical-key (map-invert cell-align-vertical))
-(def cell-border-key (map-invert cell-border))
-(def cell-fill-style-key (map-invert cell-fill-style))
+(def picture-type-key (set/map-invert picture-type))
+(def sheet-state-key (set/map-invert sheet-state))
+(def missing-cell-policy-key (set/map-invert missing-cell-policy))
+(def cell-type-key (set/map-invert cell-type))
+(def cell-align-key (set/map-invert cell-align))
+(def cell-align-vertical-key (set/map-invert cell-align-vertical))
+(def cell-border-key (set/map-invert cell-border))
+(def cell-fill-style-key (set/map-invert cell-fill-style))
 
 ; defines the current values, which will be bound thread locally by the new and select macros
 (def ^{:dynamic true} *workbook*)
@@ -116,11 +117,10 @@
   "Checks if the given workbook is a xssf workbook (a.k.a. an '.xlsx' file)."
   [wb])
 
-
 (defn to-int
   "Coerces a (numeric) value to an integer."
   [value]
-  (coerce java.lang.Integer/TYPE value))
+  (tc/coerce java.lang.Integer/TYPE value))
 
 (defn color
   "Creates an 'extended' color."
@@ -398,29 +398,29 @@
 (defn create-workbook
  "Creates a new workbook."
  ([opts]
-  (set-properties! (XSSFWorkbook.) opts))
+  (b/set-properties! (XSSFWorkbook.) opts))
  ([file opts]
   (with-open [input (input-stream file)]
-    (set-properties! (WorkbookFactory/create input) opts))))
+    (b/set-properties! (WorkbookFactory/create input) opts))))
 
 (defn create-hssf-workbook
   "Creates a new HSSF workbook."
   [opts]
-  (set-properties! (HSSFWorkbook.) opts))
+  (b/set-properties! (HSSFWorkbook.) opts))
 
 (defn create-sheet
   "Creates a new sheet."
   ([wb opts]
-   (set-properties! (.createSheet wb) opts))
+   (b/set-properties! (.createSheet wb) opts))
   ([wb sheet-no opts]
-   (set-properties! (.createSheet wb sheet-no) opts)))
+   (b/set-properties! (.createSheet wb sheet-no) opts)))
 
 (defn create-row
   "Creates a new row."
   ([sheet opts]
    (create-row sheet (to-int (row-insert-index sheet)) opts))
   ([sheet row-no opts]
-   (set-properties! (.createRow sheet row-no) opts)))
+   (b/set-properties! (.createRow sheet row-no) opts)))
 
 (defn create-cell
   "Creates a new cell."
@@ -432,17 +432,17 @@
 (defn create-cell-style
   "Creates a new cell style."
   [wb opts]
-  (set-properties! (.createCellStyle wb) opts))
+  (b/set-properties! (.createCellStyle wb) opts))
 
 (defn create-font
   "Creates a new font."
   [wb opts]
-  (set-properties! (.createFont wb) opts))
+  (b/set-properties! (.createFont wb) opts))
 
 (defn create-data-format
   "Creates a new data format."
   [wb opts]
-  (set-properties! (.createDataFormat wb) opts))
+  (b/set-properties! (.createDataFormat wb) opts))
 
 (defn create-cell-range-address
   "Creates a cell range address."
@@ -471,19 +471,19 @@
 (defn read-workbook
   "Reads a workbook from file."
   ([file]
-   (with-open [input (input-stream file)]
+   (with-open [input (io/input-stream file)]
      (.read *workbook* input)))
   ([wb file]
-   (with-open [input (input-stream file)]
+   (with-open [input (io/input-stream file)]
      (.read wb input))))
 
 (defn write-workbook
   "Writes a workbook to file."
   ([file]
-   (with-open [out (output-stream file)]
+   (with-open [out (io/output-stream file)]
      (.write *workbook* out)))
   ([file wb]
-   (with-open [out (output-stream file)]
+   (with-open [out (io/output-stream file)]
      (.write wb out))))
 
 ;

@@ -7,7 +7,7 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 ;
-(ns org.soulspace.clj.net.ftp.ftp-file
+(ns org.soulspace.cmp.net.ftp.ftp-file
   (:import [org.apache.commons.net.ftp FTPFile]))
 
 (def ftp-file-type

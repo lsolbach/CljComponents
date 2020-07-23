@@ -7,9 +7,9 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 ;
-(ns org.soulspace.clj.poi.example.excel.create-with-fns
+(ns org.soulspace.cmp.poi.example.excel.create-with-fns
   (:use [clojure.java.io]
-        [org.soulspace.clj.poi excel]))
+        [org.soulspace.cmp.poi excel]))
 
 ;
 ; currently implemented way of creating excel workbooks

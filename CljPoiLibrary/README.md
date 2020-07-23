@@ -1,28 +1,17 @@
-CljPoiLibrary
-==============
-The CljPoiLibrary is a clojure wrapper library for Apache POI.
-
-Author/Project Lead
--------------------
-Ludger Solbach
+cmp.poi
+=======
+The cmp.poi library is an Apache POI wrapper in Clojure.
+It contains functions and macros to create, read, update and write MS Excel workbooks.
 
 Copyright
 ---------
-© 2013- Ludger Solbach
+© 2013-2020 Ludger Solbach
 
 License
 -------
-[Eclipse Public License 1.0] (http://www.eclipse.org/legal/epl-v10.html "EPL 1.0")
+[Eclipse Public License 1.0](http://www.eclipse.org/legal/epl-v10.html)
 
 Code Repository
 ---------------
-[https://github.com/lsolbach/CljPoiLibrary] (https://github.com/lsolbach/CljPoiLibrary)
+[CljComponents on GitHub](https://github.com/lsolbach/CljComponents)
 
-History
--------
-
-Version 0.1.0 (--.--.2013)
---------------------------
-* start of excel support
-* initial git import
-* initial github import

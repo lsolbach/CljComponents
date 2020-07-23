@@ -7,14 +7,14 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 ;
-(ns org.soulspace.clj.net.ftp.ftp-client
+(ns org.soulspace.cmp.net.ftp.ftp-client
   (:import [java.io PrintWriter]
            [org.apache.commons.net PrintCommandListener]
            [org.apache.commons.net.ftp FTP FTPClient FTPClientConfig FTPReply])
   (:use [clojure.java.io :only [input-stream]]
         [org.soulspace.clj.java beans]
-        [org.soulspace.clj.net command-listener]
-        [org.soulspace.clj.net.ftp ftp-file ftp-reply]))
+        [org.soulspace.cmp.net command-listener]
+        [org.soulspace.cmp.net.ftp ftp-file ftp-reply]))
 
 ; used to bind the ftp client thread locally in with-ftp-connection
 (def
