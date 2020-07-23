@@ -7,7 +7,7 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 ;
-(ns org.soulspace.clj.jfreechart.dataset
+(ns org.soulspace.cmp.jfreechart.dataset
   (:import
     [org.jfree.data DefaultKeyedValue DefaultKeyedValues]
     [org.jfree.data.general DefaultPieDataset DefaultValueDataset]

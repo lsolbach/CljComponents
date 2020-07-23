@@ -7,9 +7,9 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 ;
-(ns org.soulspace.clj.jfreechart.chart
+(ns org.soulspace.cmp.jfreechart.chart
   (:use
-    [org.soulspace.clj.jfreechart.dataset]
+    [org.soulspace.cmp.jfreechart.dataset]
     [org.soulspace.clj.java beans])
   (:import
     [org.jfree.util TableOrder]

@@ -7,7 +7,7 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 ;
-(ns org.soulspace.clj.jfreechart.export
+(ns org.soulspace.cmp.jfreechart.export
   (:import [org.jfree.chart ChartUtilities]))
 
 (defn save-chart-as-png [file chart width height]

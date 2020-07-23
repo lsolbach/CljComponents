@@ -7,9 +7,9 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 ;
-(ns org.soulspace.clj.jfreechart.swing
-  (:use [org.soulspace.clj.jfreechart.dataset]
-        [org.soulspace.clj.jfreechart.chart])
+(ns org.soulspace.cmp.jfreechart.swing
+  (:use [org.soulspace.cmp.jfreechart.dataset]
+        [org.soulspace.cmp.jfreechart.chart])
   (:import [org.jfree.chart ChartPanel]))
 
 ; TODO use init-swing from CljSwingLibrary for initialization (additional dependency)?
