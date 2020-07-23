@@ -1,55 +1,57 @@
-CljMarkdownLibrary
-==================
-The CljMarkdownLibrary contains functions to generate markdown documents with clojure.
+cmp.markdown
+============
+The cmp.markdown library contains functions to generate markdown documents with Clojure.
 
-Example
--------
-
-Executing this clojure namespace 
+Usage
+-----
+Leiningen
 
 ```
-(ns md
-  (:require [org.soulspace.clj.markdown.markdown :as md]))
+[org.soulspace.clj/cmp.markdown "0.4.0"]
+```
+
+
+Example code to generate markdown
+
+```
+(ns markdown.example
+  (:require [org.soulspace.cmp.markdown.markdown :as md]))
 
 (def md
   (md/markdown
     (md/h1 "Markdown Example")
-    (md/p "This is an example of the programmatic generation of markdown files with the CljMarkdown library.")
+    (md/p "This is an example of the programmatic generation of markdown files with the cmp.markdown library.")
     (md/h2 "Markdown Formats")
-    (md/p "The CljMarkdownLibrary supports the following markdown formats:\n"
+    (md/p "The cmp.markdown library supports the following markdown formats:\n"
        (md/ol (md/link "Markdown" "http://daringfireball.net/projects/markdown/")
            (md/link "Github flavoured markdown" "https://help.github.com/articles/github-flavored-markdown")))))
 
 (println md)
 ```
 
-results in
+Generated markdown 
 
 ```
 Markdown Example
 ================
-This is an example of the programmatic generation of markdown files with the CljMarkdown library.
+This is an example of the programmatic generation of markdown files with the cmp.markdown library.
 
 Markdown Formats
 ----------------
-The CljMarkdownLibrary supports the following markdown formats:
+The cmp.markdown library supports the following markdown formats:
 1. [Markdown](http://daringfireball.net/projects/markdown/)
 2. [Github flavoured markdown](https://help.github.com/articles/github-flavored-markdown)
 ```
 
-Author/Project Lead
--------------------
-Ludger Solbach
-
 Copyright
 ---------
-© 2012-2016 Ludger Solbach
+Â© 2012-2020 Ludger Solbach
 
 License
 -------
-[Eclipse Public License 1.0] (http://www.eclipse.org/legal/epl-v10.html "EPL 1.0")
+[Eclipse Public License 1.0](http://www.eclipse.org/legal/epl-v10.html)
 
 Code Repository
 ---------------
-[https://github.com/lsolbach/CljMarkdownLibrary] (https://github.com/lsolbach/CljComponents)
+[https://github.com/lsolbach/CljComponents](https://github.com/lsolbach/CljComponents)
 
