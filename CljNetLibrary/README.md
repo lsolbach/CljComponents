@@ -1,5 +1,5 @@
-CljNetLibrary
-=============
+cmp.net
+=======
 The cmp.net library provides a Clojure wrapper for Apache Commons Net.
 As of version 0.3.0 it provides a wrapper for the FtpClient.
 
