@@ -1,22 +1,15 @@
-CljExifLibrary
-==============
-The CljExifLibrary is a library for reading and writing EXIF tags on images.
-
-Author/Project Lead
--------------------
-Ludger Solbach
+cmp.exif
+========
+The cmp.exif is a library for reading and writing EXIF tags on images.
 
 Copyright
 ---------
-© 2017 Ludger Solbach
+© 2017-2020 Ludger Solbach
 
 License
 -------
-[Eclipse Public License 1.0] (http://www.eclipse.org/legal/epl-v10.html "EPL 1.0")
+[Eclipse Public License 1.0](http://www.eclipse.org/legal/epl-v10.html)
 
 Code Repository
 ---------------
-[https://github.com/lsolbach/CljJavaLibrary] (https://github.com/lsolbach/CljJavaLibrary)
-
-History
--------
+[CljComponents on GitHub] (https://github.com/lsolbach/CljComponents)

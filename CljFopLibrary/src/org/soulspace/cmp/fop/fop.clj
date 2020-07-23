@@ -7,7 +7,7 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 ;
-(ns org.soulspace.clj.fop.fop
+(ns org.soulspace.cmp.fop.fop
   (:use [clojure.java.io]
         [org.soulspace.clj.java beans])
   (:import [javax.xml.parsers SAXParserFactory SAXParser]

@@ -1,26 +1,15 @@
-CljFopLibrary
-=============
-The CljFopLibrary is a clojure wrapper library for Apache FOP.
-
-Author/Project Lead
--------------------
-Ludger Solbach
+cmp.fop
+=======
+The cmp.fop component is a Clojure wrapper for Apache FOP
 
 Copyright
 ---------
-© 2011-2013 Ludger Solbach
+© 2011-2020 Ludger Solbach
 
 License
 -------
-[Eclipse Public License 1.0] (http://www.eclipse.org/legal/epl-v10.html "EPL 1.0")
+[Eclipse Public License 1.0](http://www.eclipse.org/legal/epl-v10.html)
 
 Code Repository
 ---------------
-[https://github.com/lsolbach/CljFopLibrary] (https://github.com/lsolbach/CljFopLibrary)
-
-History
--------
-
-Version 0.1.0 (--.--.201-)
---------------------------
-* Initial import
+[CljComponents on GitHub](https://github.com/lsolbach/CljComponents)

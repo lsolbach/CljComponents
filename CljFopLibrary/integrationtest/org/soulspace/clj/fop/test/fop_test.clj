@@ -7,7 +7,7 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 ;
-(ns org.soulspace.clj.fop.test.fop-test
-  (:use [org.soulspace.clj.fop fop]))
+(ns org.soulspace.cmp.fop.test.fop-test
+  (:use [org.soulspace.cmp.fop fop]))
 
 (fo-to-pdf "integrationtest/fo.xml" "build/test.pdf")
