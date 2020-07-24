@@ -3,6 +3,7 @@ CljComponents
 
 The CljComponents repository contains various Clojure modules, mostly wrappers on Java components and libraries to provide them with a idiomatic API for Clojure.
 
+* cmp.batik
 * cmp.exif
 * cmp.fop
 * cmp.jfreechart
