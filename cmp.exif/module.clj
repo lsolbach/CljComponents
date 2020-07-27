@@ -3,7 +3,7 @@
  :project "org.soulspace.clj"
  :type :library
  :version "0.1.0"
- :description "Clojure XSLT library"
+ :description "Clojure EXIF library"
  :plugins [["org.soulspace.baumeister/ClojurePlugin"]
            ["org.soulspace.baumeister/ClojureTestPlugin"]
            ["org.soulspace.baumeister/PackagePlugin"]]
