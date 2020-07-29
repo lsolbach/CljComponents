@@ -1,26 +1,19 @@
-cmp.poi
-=======
-The cmp.poi library is an [Apache POI](https://poi.apache.org/) wrapper in Clojure.
-It contains functions and macros to create, read, update and write MS Excel workbooks.
-
-Usage
------
-Add the following Leiningen dependency:
-
-```
-[org.soulspace.clj/cmp.poi "0.6.0"]
-```
-
-In a new example namespace we require the excel namespace and import the IndexedColors class for a bit of color.
-
-```
+;;
+;;   Copyright (c) Ludger Solbach. All rights reserved.
+;;   The use and distribution terms for this software are covered by the
+;;   Eclipse Public License 1.0 (http://opensource.org/licenses/eclipse-1.0.php)
+;;   which can be found in the file license.txt at the root of this distribution.
+;;   By using this software in any fashion, you are agreeing to be bound by
+;;   the terms of this license.
+;;   You must not remove this notice, or any other, from this software.
+;;
 (ns org.soulspace.cmp.poi.excel.examples
   (:require [org.soulspace.cmp.poi.excel :as xl])
   (:import [org.apache.poi.ss.usermodel IndexedColors]))
-```
-Now we create a brand new excel workbook with some sample data and write it to disk.
 
-```
+;; 
+;; this is the way I like to create excel workbooks from Clojure
+;;
 (defn create-example
   "Create new workbook, fill in some data and write it to disk."
   []
@@ -44,12 +37,6 @@ Now we create a brand new excel workbook with some sample data and write it to d
                                     (xl/new-cell {} "V15")
                                     (xl/new-cell {} 4.5)))))))
 
-(create-example)
-```
-
-Finally we read the new excel workbook again and update a sheet with a new row of data.
-
-```
 (defn update-example
   "Update an existing workbook with a new row of data in the first sheet."
   []
@@ -59,21 +46,3 @@ Finally we read the new excel workbook again and update a sheet with a new row o
                 (xl/new-cell {} 1.5)
                 (xl/new-cell {} 2.5)
                 (xl/new-cell {} 3.5)))))
-                
-(update-example)
-```
-
-
-
-Copyright
----------
-© 2013-2020 Ludger Solbach
-
-License
--------
-[Eclipse Public License 1.0](http://www.eclipse.org/legal/epl-v10.html)
-
-Code Repository
----------------
-[CljComponents on GitHub](https://github.com/lsolbach/CljComponents)
-

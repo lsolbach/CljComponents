@@ -11,12 +11,17 @@
   (:require [clojure.java.io :as io]
             [clojure.set :as set]
             [org.soulspace.clj.java.beans :as b]
-            [org.soulspace.clj.type-conversion :as tc])
+            [org.soulspace.clj.java.type-conversion :as tc])
   (:import [org.apache.poi.poifs.filesystem POIFSFileSystem]
            [org.apache.poi.ss.util CellRangeAddress CellReference]
-           [org.apache.poi.ss.usermodel Cell CellStyle DataFormat DateUtil Font IndexedColors Row Sheet Workbook WorkbookFactory]
+           [org.apache.poi.ss.usermodel Cell CellStyle CellType DataFormat DateUtil Font
+                                        HorizontalAlignment IndexedColors PatternFormatting
+                                        Row Sheet SheetVisibility
+                                        VerticalAlignment Workbook WorkbookFactory]
+           [org.apache.poi.hssf.record.cf BorderFormatting]
            [org.apache.poi.hssf.usermodel HSSFWorkbook DVConstraint]
-           [org.apache.poi.xssf.usermodel XSSFWorkbook XSSFDataValidationConstraint XSSFDataValidationHelper XSSFColor]))
+           [org.apache.poi.xssf.usermodel XSSFWorkbook XSSFDataValidationConstraint
+                                          XSSFDataValidationHelper XSSFColor]))
 
 ; constants
 (def picture-type
@@ -28,82 +33,84 @@
    :wmf  Workbook/PICTURE_TYPE_WMF})
 
 (def sheet-state
-  {:hidden      Workbook/SHEET_STATE_HIDDEN
-   :very-hidden Workbook/SHEET_STATE_VERY_HIDDEN
-   :visible     Workbook/SHEET_STATE_VISIBLE})
+  {:hidden      SheetVisibility/HIDDEN
+   :very-hidden SheetVisibility/VERY_HIDDEN
+   :visible     SheetVisibility/VISIBLE})
 
 (def missing-cell-policy
-  {:create-null-as-blank  Row/CREATE_NULL_AS_BLANK
-   :return-blank-as-null  Row/RETURN_BLANK_AS_NULL
-   :return-null-and-blank Row/RETURN_NULL_AND_BLANK})
+  {:create-null-as-blank  Row$MissingCellPolicy/CREATE_NULL_AS_BLANK
+   :return-blank-as-null  Row$MissingCellPolicy/RETURN_BLANK_AS_NULL
+   :return-null-and-blank Row$MissingCellPolicy/RETURN_NULL_AND_BLANK})
 
 (def cell-type
-  {:numeric  Cell/CELL_TYPE_NUMERIC
-   :string   Cell/CELL_TYPE_STRING
-   :formula  Cell/CELL_TYPE_FORMULA
-   :blank    Cell/CELL_TYPE_BLANK
-   :boolean  Cell/CELL_TYPE_BOOLEAN
-   :error    Cell/CELL_TYPE_ERROR
+  {:numeric  CellType/NUMERIC
+   :string   CellType/STRING
+   :formula  CellType/FORMULA
+   :blank    CellType/BLANK
+   :boolean  CellType/BOOLEAN
+   :error    CellType/ERROR
    :null    nil})
 
-(def cell-align
-  {:center           CellStyle/ALIGN_CENTER
-   :center-selection CellStyle/ALIGN_CENTER_SELECTION
-   :fill             CellStyle/ALIGN_FILL
-   :general          CellStyle/ALIGN_GENERAL
-   :justify          CellStyle/ALIGN_JUSTIFY
-   :left             CellStyle/ALIGN_LEFT
-   :right            CellStyle/ALIGN_RIGHT})
+(def horizontal-alignment
+  {:center           HorizontalAlignment/CENTER
+   :center-selection HorizontalAlignment/CENTER_SELECTION
+   :distributed      HorizontalAlignment/DISTRIBUTED
+   :fill             HorizontalAlignment/FILL
+   :general          HorizontalAlignment/GENERAL
+   :justify          HorizontalAlignment/JUSTIFY
+   :left             HorizontalAlignment/LEFT
+   :right            HorizontalAlignment/RIGHT})
 
-(def cell-align-vertical
-  {:bottom  CellStyle/VERTICAL_BOTTOM
-   :center  CellStyle/VERTICAL_TOP
-   :justify CellStyle/VERTICAL_JUSTIFY
-   :top     CellStyle/VERTICAL_TOP})
+(def vertical-alignment
+  {:bottom           VerticalAlignment/BOTTOM
+   :center           VerticalAlignment/TOP
+   :distributed      VerticalAlignment/DISTRIBUTED
+   :justify          VerticalAlignment/JUSTIFY
+   :top              VerticalAlignment/TOP})
 
 (def cell-border
-  {:dash-dot            CellStyle/BORDER_DASH_DOT
-   :dash-dot-dot        CellStyle/BORDER_DASH_DOT_DOT
-   :dashed              CellStyle/BORDER_DASHED
-   :dotted              CellStyle/BORDER_DOTTED
-   :double              CellStyle/BORDER_DOUBLE
-   :hair                CellStyle/BORDER_HAIR
-   :medium              CellStyle/BORDER_MEDIUM
-   :medium-dash-dot     CellStyle/BORDER_MEDIUM_DASH_DOT
-   :medium-dash-dot-dot CellStyle/BORDER_MEDIUM_DASH_DOT_DOT
-   :medium-dashed       CellStyle/BORDER_MEDIUM_DASHED
-   :none                CellStyle/BORDER_NONE
-   :slanted-dash-dot    CellStyle/BORDER_SLANTED_DASH_DOT
-   :thick               CellStyle/BORDER_THICK
-   :thin                CellStyle/BORDER_THIN})
+  {:dash-dot            BorderFormatting/BORDER_DASH_DOT
+   :dash-dot-dot        BorderFormatting/BORDER_DASH_DOT_DOT
+   :dashed              BorderFormatting/BORDER_DASHED
+   :dotted              BorderFormatting/BORDER_DOTTED
+   :double              BorderFormatting/BORDER_DOUBLE
+   :hair                BorderFormatting/BORDER_HAIR
+   :medium              BorderFormatting/BORDER_MEDIUM
+   :medium-dash-dot     BorderFormatting/BORDER_MEDIUM_DASH_DOT
+   :medium-dash-dot-dot BorderFormatting/BORDER_MEDIUM_DASH_DOT_DOT
+   :medium-dashed       BorderFormatting/BORDER_MEDIUM_DASHED
+   :none                BorderFormatting/BORDER_NONE
+   :slanted-dash-dot    BorderFormatting/BORDER_SLANTED_DASH_DOT
+   :thick               BorderFormatting/BORDER_THICK
+   :thin                BorderFormatting/BORDER_THIN})
 
 (def cell-fill-style
-  {:no-fill             CellStyle/NO_FILL
-   :solid-foreground    CellStyle/SOLID_FOREGROUND
-   :fine-dots           CellStyle/FINE_DOTS
-   :alt-bars            CellStyle/ALT_BARS
-   :sparse-dots         CellStyle/SPARSE_DOTS
-   :thick-horz-bands    CellStyle/THICK_HORZ_BANDS
-   :thick-vert-bands    CellStyle/THICK_VERT_BANDS
-   :thick-backward-diag CellStyle/THICK_BACKWARD_DIAG
-   :thick-forward-diag  CellStyle/THICK_FORWARD_DIAG
-   :thin-horz-bands     CellStyle/THIN_HORZ_BANDS
-   :thin-vert-bands     CellStyle/THIN_VERT_BANDS
-   :thin-backward-diag  CellStyle/THIN_BACKWARD_DIAG
-   :thin-forward-diag   CellStyle/THIN_FORWARD_DIAG
-   :big-spots           CellStyle/BIG_SPOTS
-   :bricks              CellStyle/BRICKS
-   :squares             CellStyle/SQUARES
-   :diamonds            CellStyle/DIAMONDS
-   :less-dots           CellStyle/LESS_DOTS
-   :least-dots          CellStyle/LEAST_DOTS})
+  {:no-fill             PatternFormatting/NO_FILL
+   :solid-foreground    PatternFormatting/SOLID_FOREGROUND
+   :fine-dots           PatternFormatting/FINE_DOTS
+   :alt-bars            PatternFormatting/ALT_BARS
+   :sparse-dots         PatternFormatting/SPARSE_DOTS
+   :thick-horz-bands    PatternFormatting/THICK_HORZ_BANDS
+   :thick-vert-bands    PatternFormatting/THICK_VERT_BANDS
+   :thick-backward-diag PatternFormatting/THICK_BACKWARD_DIAG
+   :thick-forward-diag  PatternFormatting/THICK_FORWARD_DIAG
+   :thin-horz-bands     PatternFormatting/THIN_HORZ_BANDS
+   :thin-vert-bands     PatternFormatting/THIN_VERT_BANDS
+   :thin-backward-diag  PatternFormatting/THIN_BACKWARD_DIAG
+   :thin-forward-diag   PatternFormatting/THIN_FORWARD_DIAG
+   :big-spots           PatternFormatting/BIG_SPOTS
+   :bricks              PatternFormatting/BRICKS
+   :squares             PatternFormatting/SQUARES
+   :diamonds            PatternFormatting/DIAMONDS
+   :less-dots           PatternFormatting/LESS_DOTS
+   :least-dots          PatternFormatting/LEAST_DOTS})
 
 (def picture-type-key (set/map-invert picture-type))
 (def sheet-state-key (set/map-invert sheet-state))
 (def missing-cell-policy-key (set/map-invert missing-cell-policy))
 (def cell-type-key (set/map-invert cell-type))
-(def cell-align-key (set/map-invert cell-align))
-(def cell-align-vertical-key (set/map-invert cell-align-vertical))
+(def horizontal-alignment-key (set/map-invert horizontal-alignment))
+(def vertical-alignment-key (set/map-invert vertical-alignment))
 (def cell-border-key (set/map-invert cell-border))
 (def cell-fill-style-key (set/map-invert cell-fill-style))
 
@@ -400,7 +407,7 @@
  ([opts]
   (b/set-properties! (XSSFWorkbook.) opts))
  ([file opts]
-  (with-open [input (input-stream file)]
+  (with-open [input (io/input-stream file)]
     (b/set-properties! (WorkbookFactory/create input) opts))))
 
 (defn create-hssf-workbook
@@ -427,7 +434,7 @@
   ([row opts value]
    (create-cell row (to-int (cell-insert-index row)) opts value))
   ([row cell-no opts value]
-   (set-cell-value (set-properties! (.createCell row cell-no) opts) value)))
+   (set-cell-value (b/set-properties! (.createCell row cell-no) opts) value)))
 
 (defn create-cell-style
   "Creates a new cell style."
