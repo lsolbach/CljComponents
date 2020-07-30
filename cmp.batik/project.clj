@@ -1,4 +1,4 @@
-(defproject org.soulspace.clj/cmp.batik "0.2.0"
+(defproject org.soulspace.clj/cmp.batik "0.2.1-SNAPSHOT"
   :description "The cmp.batik library provides a Clojure wrapper for Apache Batik SVG components."
   :url "https://github.com/lsolbach/CljXML"
   :license {:name "Eclipse Public License"
