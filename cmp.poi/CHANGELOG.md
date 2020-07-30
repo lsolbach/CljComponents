@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+Version 0.6.1
+-------------
+
+
 Version 0.6.0
 -------------
 * renamed project to cmp.poi

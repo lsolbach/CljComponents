@@ -1,5 +1,5 @@
-(defproject org.soulspace.clj/cmp.poi "0.6.0"
-  :description "The cmp.poi library is an Apache POI wrapper in Clojure."
+(defproject org.soulspace.clj/cmp.poi "0.6.1"
+  :description "The cmp.poi library is an Apache POI wrapper to create, read and update MS Excel files."
   :url "https://github.com/lsolbach/CljComponents"
   :license {:name "Eclipse Public License"
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
