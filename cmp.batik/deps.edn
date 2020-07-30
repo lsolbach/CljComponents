@@ -1,0 +1,4 @@
+{:deps {org.clojure/clojure {:mvn/version "1.10.1"}
+        org.apache.xmlgraphics/batik-swing {:mvn/version "1.9.1"}
+        org.apache.xmlgraphics/batik-svggen {:mvn/version "1.9.1"}
+        org.soulspace.clj/clj.java {:mvn/version "0.8.0"}}}
