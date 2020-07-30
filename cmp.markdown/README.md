@@ -1,6 +1,7 @@
 cmp.markdown
 ============
-The cmp.markdown library contains functions to generate markdown documents with Clojure.
+The cmp.markdown library contains DSL functions to generate markdown documents with Clojure.
+Functions ar provided for standard markdown and Github flavoured markdown extensions.
 
 Usage
 -----
@@ -15,7 +16,7 @@ Example code to generate markdown
 
 ```
 (ns markdown.example
-  (:require [org.soulspace.cmp.markdown.markdown :as md]))
+  (:require [org.soulspace.cmp.markdown-dsl :as md]))
 
 (def md
   (md/markdown

@@ -8,7 +8,7 @@
 ;   You must not remove this notice, or any other, from this software.
 ;
 (ns md
-  (:require [org.soulspace.cmp.markdown.markdown-dsl :as md]))
+  (:require [org.soulspace.cmp.markdown-dsl :as md]))
 
 (def md
   (md/markdown
