@@ -8,4 +8,4 @@
                   ; FOP 2.4 and 2.5 depend on  [com.sun.media/jai-codec "1.1.3"] which is not OSS
                  [org.apache.xmlgraphics/fop "2.3"]]
   :test-paths ["test"]
- :deploy-repositories [["clojars" {:sign-releases false :url "https://clojars.org/repo"}]])
+  :deploy-repositories [["clojars" {:sign-releases false :url "https://clojars.org/repo"}]])
