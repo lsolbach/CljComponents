@@ -7,7 +7,7 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 ;
-(ns org.soulspace.clj.svg.swing
+(ns org.soulspace.cmp.svg.swing
   (:require [org.soulspace.clj.java.beans :as b])
   (:import [org.apache.batik.swing JSVGCanvas JSVGScrollPane]))
 

@@ -6,7 +6,5 @@
   :dependencies [[org.clojure/clojure "1.10.1"]
                  [org.apache.xmlgraphics/batik-swing "1.9.1"]
                  [org.apache.xmlgraphics/batik-svggen "1.9.1"]
-                 [org.apache.xmlgraphics/batik-svg-dom "1.9.1"]
-                 [org.soulspace.clj/xml.core "0.5.0"]
-                 [org.soulspace.clj/clj.base "0.8.0"]]
+                 [org.soulspace.clj/clj.java "0.8.0"]]
   :test-paths ["unittest"])

@@ -1,12 +1,14 @@
 cmp.batik
 =========
 The cmp.batik library provides a Clojure wrapper for the Apache Batik SVG component.
+cmp.batik contains code to render and output SVG files for a Graphics2D context and to display SVG files in a swing component.
+
+You can use the SVG DSL from the [xml.dsl](https://github.com/lsolbach/CljXML) to generate SVG programmatically with Clojure.
 
 Usage
 -----
 Leiningen
 [org.soulspace.clj/cmp.batik "0.2.0"]
-
 
 Copyright
 ---------
@@ -18,5 +20,4 @@ License
 
 Code Repository
 ---------------
-[CljXML on GitHub](https://github.com/lsolbach/CljXML)
-
+[CljComponents on GitHub](https://github.com/lsolbach/CljComponents)

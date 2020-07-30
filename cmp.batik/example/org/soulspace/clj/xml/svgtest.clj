@@ -9,9 +9,9 @@
 ;
 (ns org.soulspace.clj.xml.svgtest
 ;  (:refer-clojure :exclude [filter set symbol use])
-  (:require [org.soulspace.clj.svg.svg-dsl :as svg])
+  (:require [org.soulspace.cmp.svg.svg-dsl :as svg])
   (:use [clojure.data.xml]
-        [org.soulspace.clj.svg graphics2d]))
+        [org.soulspace.cmp.svg graphics2d]))
 
 (defn svg-circles
   []
