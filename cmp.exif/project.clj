@@ -1,4 +1,4 @@
-(defproject org.soulspace.clj/cmp.exif "0.1.0"
+(defproject org.soulspace.clj/cmp.exif "0.1.1-SNAPSHOT"
   :description "The cmp.exif is a library for reading EXIF tags on images"
   :url "https://github.com/lsolbach/CljComponents"
   :license {:name "Eclipse Public License"
