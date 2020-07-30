@@ -1,4 +1,4 @@
-(ns org.soulspace.cmp.exif.exif
+(ns org.soulspace.cmp.exif
   (:require [clojure.java.io :as io])
   (:import [com.drew.imaging ImageMetadataReader]
            [com.drew.metadata.exif ExifSubIFDDirectory]))

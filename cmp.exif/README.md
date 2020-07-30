@@ -20,7 +20,7 @@ Usage
 
 ```
 (ns exif-example
-  (:require [org.soulspace.cmp.exif.exif :as exif]))
+  (:require [org.soulspace.cmp.exif :as exif]))
   
   (def image-file "example.jpg") ; NOTE: use a path to your image
 
