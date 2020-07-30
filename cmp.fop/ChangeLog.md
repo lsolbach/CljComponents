@@ -4,7 +4,8 @@ Change Log
 Version 0.3.0
 -------------
 * renamed project to cmp.fop
-* renamed packages
+* renamed namespaces
+* updated README
 * updated dependencies
 
 
