@@ -16,7 +16,7 @@ Example code to generate markdown
 
 ```
 (ns markdown.example
-  (:require [org.soulspace.cmp.markdown-dsl :as md]))
+  (:require [org.soulspace.cmp.md.markdown-dsl :as md]))
 
 (def md
   (md/markdown

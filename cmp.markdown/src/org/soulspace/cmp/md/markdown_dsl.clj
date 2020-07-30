@@ -7,7 +7,7 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 ;
-(ns org.soulspace.cmp.markdown.markdown-dsl
+(ns org.soulspace.cmp.md.markdown-dsl
   (:require [clojure.string :as str]))
 
 (def ^:private indent (atom 0))
