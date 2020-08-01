@@ -3,12 +3,14 @@ cmp.poi
 The cmp.poi library is an [Apache POI](https://poi.apache.org/) wrapper in Clojure.
 It contains functions and macros to create, read, update and write MS Excel workbooks.
 
+[![Clojars Project](https://img.shields.io/clojars/v/org.soulspace.clj/cmp.poi.svg)](https://clojars.org/org.soulspace.clj/cmp.poi)
+
 Usage
 -----
 Add the following Leiningen dependency:
 
 ```
-[org.soulspace.clj/cmp.poi "0.6.0"]
+[org.soulspace.clj/cmp.poi "0.6.1"]
 ```
 
 In a new example namespace we require the excel namespace and import the IndexedColors class for a bit of color.

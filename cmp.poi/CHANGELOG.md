@@ -3,7 +3,7 @@ Change Log
 
 Version 0.6.1
 -------------
-
+* fixed missing import of Row$MissingCellPolicy
 
 Version 0.6.0
 -------------

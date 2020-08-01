@@ -16,7 +16,7 @@
            [org.apache.poi.ss.util CellRangeAddress CellReference]
            [org.apache.poi.ss.usermodel Cell CellStyle CellType DataFormat DateUtil Font
                                         HorizontalAlignment IndexedColors PatternFormatting
-                                        Row Sheet SheetVisibility
+                                        Row Row$MissingCellPolicy Sheet SheetVisibility
                                         VerticalAlignment Workbook WorkbookFactory]
            [org.apache.poi.hssf.record.cf BorderFormatting]
            [org.apache.poi.hssf.usermodel HSSFWorkbook DVConstraint]
