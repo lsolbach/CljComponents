@@ -1,0 +1,3 @@
+{:deps {org.clojure/clojure {:mvn/version "1.10.1"}
+        xalan/xalan {:mvn/version "2.7.1"}
+        xalan/serializer {:mvn/version "2.7.1"}}}
