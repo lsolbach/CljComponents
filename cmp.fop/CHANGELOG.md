@@ -5,8 +5,10 @@ Version 0.3.0
 -------------
 * renamed project to cmp.fop
 * renamed namespaces
+* updated to Apache FOP 2.5
+* added default fop.xconf
 * updated README
-* updated dependencies
+* switched to deps.edn dependencies
 
 
 Version 0.1.0

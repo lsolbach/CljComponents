@@ -12,23 +12,27 @@
   (:require [clojure.java.io :as io]
             [org.soulspace.clj.java.beans :as bean])
   (:import [javax.xml.parsers SAXParserFactory SAXParser]
-           [org.apache.fop.apps FOUserAgent Fop FopFactory MimeConstants]))
+           [org.apache.fop.apps FOUserAgent Fop FopConfParser FopFactoryBuilder FopFactory MimeConstants]))
 
 ;;
 ;; PDF generation with Apache FOP
 ;;
 
-; TODO refactor for the FOP 2.x config mechanism
 (defn new-fop-factory
-  [& opts]
-  (let [ff (FopFactory/newInstance)]
-    (if opts
-      (bean/set-properties! ff opts))))
+  "Creates a new FopFactory instance."
+  ([]
+    (new-fop-factory (io/resource "fop.xconf")))
+  ([filename & opts]
+    (let [fc (FopConfParser. (io/as-file filename))
+          fb (.getFopFactoryBuilder fc)]
+      (if opts
+        (bean/set-properties! fb opts))
+      (.build fb))))
 
 (defn fo-to-pdf
   "Converts fo (file) to a pdf file."
   ([fo pdf-file]
-    (fo-to-pdf new-fop-factory fo pdf-file))
+    (fo-to-pdf (new-fop-factory) fo pdf-file))
   ([fop-factory fo pdf-file]
     ; configure foUserAgent as desired
     (with-open [out (io/output-stream pdf-file)]

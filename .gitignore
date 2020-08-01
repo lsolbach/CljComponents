@@ -17,4 +17,3 @@ target/
 .settings/
 bin/
 hs_err_pid*.log
-
