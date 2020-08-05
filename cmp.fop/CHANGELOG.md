@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+Version 0.3.1
+-------------
+* excluded jai-codec transitive dependency
+
 Version 0.3.0
 -------------
 * renamed project to cmp.fop
