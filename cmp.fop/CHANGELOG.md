@@ -3,7 +3,7 @@ Change Log
 
 Version 0.3.1
 -------------
-* excluded jai-codec transitive dependency
+* excluded jai transitive dependency
 
 Version 0.3.0
 -------------

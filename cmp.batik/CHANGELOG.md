@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+Version 0.2.1
+-------------
+* excluded jai transitive dependency
+
 Version 0.2.0
 -------------
 * changed project name

@@ -1,4 +1,6 @@
 {:deps {org.clojure/clojure {:mvn/version "1.10.1"}
-        org.apache.xmlgraphics/batik-swing {:mvn/version "1.9.1"}
-        org.apache.xmlgraphics/batik-svggen {:mvn/version "1.9.1"}
+        org.apache.xmlgraphics/batik-swing {:mvn/version "1.13"
+                                            :exclusions [[com.sun.media/jai-codec] [javax.media/jai-codec] [javax.media/jai-core]]}
+        org.apache.xmlgraphics/batik-svggen {:mvn/version "1.13"
+                                             :exclusions [[com.sun.media/jai-codec] [javax.media/jai-codec] [javax.media/jai-core]]}
         org.soulspace.clj/clj.java {:mvn/version "0.8.0"}}}
