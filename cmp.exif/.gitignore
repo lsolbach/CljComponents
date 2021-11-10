@@ -1,0 +1,5 @@
+.lein-failure
+.calva
+.clj-kondo
+.cpcache
+.lsp

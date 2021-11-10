@@ -6,3 +6,7 @@
 target
 pom.xml
 .lein-failures
+.calva
+.clj-kondo
+.cpcache
+.lsp
