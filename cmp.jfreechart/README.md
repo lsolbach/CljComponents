@@ -2,6 +2,12 @@ cmp.jfreechart
 ==============
 The cmp.jfreechart component is a Clojure wrapper for JFreechart.
 
+Usage
+-----
+
+### Dependency
+[![Clojars Project](https://img.shields.io/clojars/v/org.soulspace.clj/cmp.jfreechart.svg)](https://clojars.org/org.soulspace.clj/cmp.jfreechart)
+
 Copyright
 ---------
 © 2011-2020 Ludger Solbach
@@ -12,4 +18,4 @@ License
 
 Code Repository
 ---------------
-[CljComponent on GitHub](https://github.com/lsolbach/CljComponent)
+[CljComponents on GitHub](https://github.com/lsolbach/CljComponents)

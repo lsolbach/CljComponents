@@ -10,13 +10,11 @@ Copyright
 
 Usage
 -----
-### Leiningen
+### Dependency
 
-```
-[org.soulspace.clj/cmp.exif "0.1.0"]
-```
+[![Clojars Project](https://img.shields.io/clojars/v/org.soulspace.clj/cmp.exif.svg)](https://clojars.org/org.soulspace.clj/cmp.exif)
 
-### Example code
+### Example
 
 ```
 (ns exif-example
@@ -25,10 +23,10 @@ Usage
   (def image-file "example.jpg") ; NOTE: use a path to your image
 
   ;; parse the metadata into a map of maps of the shape {dir-name {tag-name tag-value}}
-  (parse-metadata (read-metadata image-file))
+  (exif/parse-metadata (exif/read-metadata image-file))
 
   ;; just print the meta-data
-  (print-metadata image-file)
+  (exif/print-metadata image-file)
 ```
 
 License

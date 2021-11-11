@@ -7,12 +7,10 @@ It contains functions and macros to create, read, update and write MS Excel work
 
 Usage
 -----
-Add the following Leiningen dependency:
+### Dependency
+[![Clojars Project](https://img.shields.io/clojars/v/org.soulspace.clj/cmp.poi.svg)](https://clojars.org/org.soulspace.clj/cmp.poi)
 
-```
-[org.soulspace.clj/cmp.poi "0.6.1"]
-```
-
+### Example
 In a new example namespace we require the excel namespace and import the IndexedColors class for a bit of color.
 
 ```
@@ -69,7 +67,7 @@ Finally we read the new excel workbook again and update a sheet with a new row o
 
 Copyright
 ---------
-© 2013-2020 Ludger Solbach
+© 2013-2021 Ludger Solbach
 
 License
 -------

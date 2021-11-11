@@ -7,11 +7,9 @@ You can use the SVG DSL from the [xml.dsl](https://github.com/lsolbach/CljXML/tr
 
 Usage
 -----
-Leiningen dependency
-
-```
-[org.soulspace.clj/cmp.batik "0.2.0"]
-```
+### Dependency
+Add the dependency:
+[![Clojars Project](https://img.shields.io/clojars/v/org.soulspace.clj/cmp.batik.svg)](https://clojars.org/org.soulspace.clj/cmp.batik)
 
 Copyright
 ---------

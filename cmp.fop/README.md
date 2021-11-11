@@ -20,12 +20,10 @@ in a *foreign* language (XSL). It's all done in the Clojure code of your applica
 
 Usage
 -----
-Leiningen dependeny
+#### Dependency
+[![Clojars Project](https://img.shields.io/clojars/v/org.soulspace.clj/cmp.fop.svg)](https://clojars.org/org.soulspace.clj/cmp.fop)
 
-```
-[org.soulspace.clj/cmp.fop "0.3.0"]
-```
-
+### Example
 Example call to generate a PDF document from a static XSL-FO document.
 
 ```
