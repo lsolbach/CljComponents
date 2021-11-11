@@ -3,8 +3,6 @@ cmp.poi
 The cmp.poi library is an [Apache POI](https://poi.apache.org/) wrapper in Clojure.
 It contains functions and macros to create, read, update and write MS Excel workbooks.
 
-[![Clojars Project](https://img.shields.io/clojars/v/org.soulspace.clj/cmp.poi.svg)](https://clojars.org/org.soulspace.clj/cmp.poi)
-
 Usage
 -----
 ### Dependency
@@ -62,8 +60,6 @@ Finally we read the new excel workbook again and update a sheet with a new row o
                 
 (update-example)
 ```
-
-
 
 Copyright
 ---------
