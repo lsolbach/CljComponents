@@ -13,7 +13,7 @@
             [org.soulspace.clj.java.beans :as b]
             [org.soulspace.clj.java.type-conversion :as tc])
   (:import [org.apache.poi.poifs.filesystem POIFSFileSystem]
-           [org.apache.poi.ss.util CellRangeAddress CellReference]
+           [org.apache.poi.ss.util CellRangeAddress CellReference WorkbookUtil]
            [org.apache.poi.ss.usermodel Cell CellStyle CellType DataFormat DateUtil Font
                                         HorizontalAlignment IndexedColors PatternFormatting
                                         Row Row$MissingCellPolicy Sheet SheetVisibility
@@ -23,8 +23,13 @@
            [org.apache.poi.xssf.usermodel XSSFWorkbook XSSFDataValidationConstraint
                                           XSSFDataValidationHelper XSSFColor]))
 
-; constants
+; Wrapper for the Apache POI Excel API
+; 
+; See https://poi.apache.org/ for reference.
+
+; enum constants
 (def picture-type
+  "Maps keywords to Workbook picture type values."
   {:dib  Workbook/PICTURE_TYPE_DIB
    :emf  Workbook/PICTURE_TYPE_EMF
    :jpeg Workbook/PICTURE_TYPE_JPEG
@@ -33,16 +38,19 @@
    :wmf  Workbook/PICTURE_TYPE_WMF})
 
 (def sheet-state
+  "Maps keywords to SheetVisibility values."
   {:hidden      SheetVisibility/HIDDEN
    :very-hidden SheetVisibility/VERY_HIDDEN
    :visible     SheetVisibility/VISIBLE})
 
 (def missing-cell-policy
+  "Maps keywords to Row$MissingCellPolicy values."
   {:create-null-as-blank  Row$MissingCellPolicy/CREATE_NULL_AS_BLANK
    :return-blank-as-null  Row$MissingCellPolicy/RETURN_BLANK_AS_NULL
    :return-null-and-blank Row$MissingCellPolicy/RETURN_NULL_AND_BLANK})
 
 (def cell-type
+  "Maps keywords to CellType values."
   {:numeric  CellType/NUMERIC
    :string   CellType/STRING
    :formula  CellType/FORMULA
@@ -52,6 +60,7 @@
    :null    nil})
 
 (def horizontal-alignment
+  "Maps keywords to HorizontalAlignment values."
   {:center           HorizontalAlignment/CENTER
    :center-selection HorizontalAlignment/CENTER_SELECTION
    :distributed      HorizontalAlignment/DISTRIBUTED
@@ -62,6 +71,7 @@
    :right            HorizontalAlignment/RIGHT})
 
 (def vertical-alignment
+  "Maps keywords to VerticalAlignment values."
   {:bottom           VerticalAlignment/BOTTOM
    :center           VerticalAlignment/TOP
    :distributed      VerticalAlignment/DISTRIBUTED
@@ -69,6 +79,7 @@
    :top              VerticalAlignment/TOP})
 
 (def cell-border
+  "Maps keywords to BorderFormatting values."
   {:dash-dot            BorderFormatting/BORDER_DASH_DOT
    :dash-dot-dot        BorderFormatting/BORDER_DASH_DOT_DOT
    :dashed              BorderFormatting/BORDER_DASHED
@@ -85,6 +96,7 @@
    :thin                BorderFormatting/BORDER_THIN})
 
 (def cell-fill-style
+  "Maps keywords to PatternFormatting cell fill style values."
   {:no-fill             PatternFormatting/NO_FILL
    :solid-foreground    PatternFormatting/SOLID_FOREGROUND
    :fine-dots           PatternFormatting/FINE_DOTS
@@ -105,7 +117,9 @@
    :less-dots           PatternFormatting/LESS_DOTS
    :least-dots          PatternFormatting/LEAST_DOTS})
 
-(def picture-type-key (set/map-invert picture-type))
+(def picture-type-key
+  
+  (set/map-invert picture-type))
 (def sheet-state-key (set/map-invert sheet-state))
 (def missing-cell-policy-key (set/map-invert missing-cell-policy))
 (def cell-type-key (set/map-invert cell-type))
@@ -249,8 +263,10 @@
 
 (defn get-all-cells
   "Returns a sequence of all the defined cells in the row."
+  ([]
+   (get-all-cells *row* 0))
   ([row]
-   (get-all-cells 0))
+   (get-all-cells row 0))
   ([row min-cells]
    (if (nil? row)
      nil
@@ -367,7 +383,7 @@
 (defn all-sheet-values
   "Returns a sequence of all the values of the sheets in the workbook. Returns at least 'min-cells' values per row."
   ([]
-   (all-sheet-values *workbook* 0 0))
+   (all-sheet-values *workbook* 0))
   ([workbook]
    (all-sheet-values workbook 0))
   ([workbook min-cells]
@@ -403,7 +419,12 @@
 ; constructors/factory functions
 ;
 (defn create-workbook
- "Creates a new workbook."
+ "Creates a new workbook.
+   
+   Useful options:
+   
+   For a complete list and description see setters in https://poi.apache.org/apidocs/dev/org/apache/poi/ss/usermodel/Workbook.html
+  "
  ([opts]
   (b/set-properties! (XSSFWorkbook.) opts))
  ([file opts]
@@ -411,48 +432,117 @@
     (b/set-properties! (WorkbookFactory/create input) opts))))
 
 (defn create-hssf-workbook
-  "Creates a new HSSF workbook."
+  "Creates a new HSSF workbook.
+   
+   Useful options:
+   
+   For a complete list and description see setters in https://poi.apache.org/apidocs/dev/org/apache/poi/ss/usermodel/Workbook.html
+   "
   [opts]
   (b/set-properties! (HSSFWorkbook.) opts))
 
 (defn create-sheet
-  "Creates a new sheet."
+  "Creates a new sheet.
+
+   Useful options:
+     :autoBreaks (boolean)
+     :autoFilter (CellRangeAddress)
+     :defaultColumnWidth (int)
+     :defaultRowHeight (int)
+     :displayFormulas (boolean)
+     :displayGridLines (boolean)
+     :displayRowColHeadings (boolean)
+     :displayZeros (boolean)
+     :fitToPage (boolean)
+     :forceFormulaRecalculation (boolean)
+     :horizontallyCenter (boolean)
+     :printGridLines (boolean)
+     :verticallyCenter (boolean)
+     :zoom (int)
+   
+   For a complete list and description see setters in https://poi.apache.org/apidocs/dev/org/apache/poi/ss/usermodel/Sheet.html
+   "
   ([wb opts]
    (b/set-properties! (.createSheet wb) opts))
-  ([wb sheet-no opts]
-   (b/set-properties! (.createSheet wb sheet-no) opts)))
+  ([wb sheet-name opts]
+   (b/set-properties! (.createSheet wb sheet-name) opts)))
 
 (defn create-row
-  "Creates a new row."
+  "Creates a new row.
+   
+   Useful options:
+     :rowStyle (CellStyle)
+   
+   For a complete list and description see setters in https://poi.apache.org/apidocs/dev/org/apache/poi/ss/usermodel/Row.html
+   "
   ([sheet opts]
    (create-row sheet (to-int (row-insert-index sheet)) opts))
   ([sheet row-no opts]
    (b/set-properties! (.createRow sheet row-no) opts)))
 
 (defn create-cell
-  "Creates a new cell."
+  "Creates a new cell.
+   
+   Useful options:
+     :cellStyle (CellStyle)
+     :cellType (CellType)
+
+   For a complete list and description see setters in https://poi.apache.org/apidocs/dev/org/apache/poi/ss/usermodel/Cell.html
+   "
   ([row opts value]
    (create-cell row (to-int (cell-insert-index row)) opts value))
   ([row cell-no opts value]
    (set-cell-value (b/set-properties! (.createCell row cell-no) opts) value)))
 
 (defn create-cell-style
-  "Creates a new cell style."
+  "Creates a new cell style.
+   
+   Useful options:
+     :alignment (HorizontalAlignment)
+     :borderBottom (BorderStyle)
+     :borderLeft (BorderStyle)
+     :borderRight (BorderStyle)
+     :borderTop (BorderStyle)
+     :font (Font)
+     :verticalAlignment (VerticalAlignment)
+     :wrapText (boolean)
+
+   For a complete list and description see setters in https://poi.apache.org/apidocs/dev/org/apache/poi/ss/usermodel/CellStyle.html
+   "
   [wb opts]
   (b/set-properties! (.createCellStyle wb) opts))
 
 (defn create-font
-  "Creates a new font."
+  "Creates a new font.
+   
+   Useful options:
+   
+   For a complete list and description see setters in https://poi.apache.org/apidocs/dev/org/apache/poi/ss/usermodel/Font.html
+   "
   [wb opts]
   (b/set-properties! (.createFont wb) opts))
 
 (defn create-data-format
-  "Creates a new data format."
+  "Creates a new data format.
+   
+   Useful options:
+   
+   For a complete list and description see setters in 
+   "
   [wb opts]
   (b/set-properties! (.createDataFormat wb) opts))
 
 (defn create-cell-range-address
-  "Creates a cell range address."
+  "Creates a cell range address.
+   
+   Useful options:
+     :firstColumn (int)
+     :firstRow (int)
+     :lastColumn (int)
+     :lastRow (int)
+
+   For a complete list and description see setters in https://poi.apache.org/apidocs/dev/org/apache/poi/ss/util/CellRangeAddress.html
+   "
   ([v]
    (CellRangeAddress/valueOf v))
   ([start-row end-row start-column end-column]
