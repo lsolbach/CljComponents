@@ -158,13 +158,17 @@
 (defn get-sheets
   "Returns a sequence of the sheets in the workbook."
   [wb]
-  ; TODO HSSF workbooks are not iterable, branch for special implementation
-  (seq wb))
+  (iterator-seq (.sheetIterator wb)))
 
 (defn get-sheet
-  "Returns the sheet at the given index."
-  [wb sheet-no]
-  (.getSheetAt wb sheet-no))
+  "Returns the sheet of a row or cell or at the given sheet index of the workbook.
+   When given a sheet, the sheet is returned."
+  ([o]
+   (if (instance? Sheet o)
+     o
+     (.getSheet o)))
+  ([wb sheet-no]
+   (.getSheetAt wb sheet-no)))
 
 (defn physical-number-of-rows
   "Returns the physical number of rows in the sheet."
@@ -184,12 +188,14 @@
 (defn get-rows
   "Returns a sequence of the physically defined rows of the sheet."
   [sheet]
-  (seq sheet))
+  (iterator-seq (.rowIterator sheet)))
 
 (defn get-row
-  "Returns the row with the index row-no of the sheet."
-  [sheet row-no]
-  (.getRow sheet row-no))
+  "Returns the row of a cell or by sheet and row index."
+  ([cell]
+   (.getRow cell))
+  ([sheet row-no]
+   (.getRow sheet row-no)))
 
 (defn get-all-rows
   "Returns a sequence of all the defined rows in the sheet."
@@ -216,6 +222,14 @@
    (last-cell-num *row*))
   ([row]
    (.getLastCellNum row)))
+
+(defn max-cell-num
+  "Returns the maximum of the last cell index of all the rows in the sheet.
+   The argument can be a sheet or a row."
+  [o]
+  (if (instance? Sheet o)
+    (reduce max 0 (map last-cell-num (iterator-seq (.rowIterator o))))
+    (reduce max 0 (map last-cell-num (iterator-seq (.rowIterator (.getSheet o)))))))
 
 (defn get-column-index
   "Returns the column index of the cell."
@@ -254,23 +268,50 @@
   ([row cell-no]
    (if (nil? row)
      nil
-     (.getCell row cell-no))))
+     (.getCell row cell-no)))
+  ([row cell-no missing-cell-policy]
+   (if (nil? row)
+     nil
+     (.getCell row cell-no missing-cell-policy))))
 
 (defn get-cells
   "Returns a sequence with the cells of the row."
   [row]
   (seq row))
 
+(comment
+  (defn get-all-cells
+    "Returns a sequence of all the defined cells in the row."
+    ([]
+     (get-all-cells *row* 0))
+    ([row]
+     (get-all-cells row 0))
+    ([row min-cells]
+     (if (nil? row)
+       nil
+       (map #(get-cell row %) (range (min (first-cell-num row) 0) (max (last-cell-num row) min-cells))))))
+  )
+
+; TODO simplify code
 (defn get-all-cells
   "Returns a sequence of all the defined cells in the row."
   ([]
-   (get-all-cells *row* 0))
+   (get-all-cells *row*))
   ([row]
-   (get-all-cells row 0))
+   (get-all-cells row (max-cell-num row)))
   ([row min-cells]
    (if (nil? row)
      nil
-     (map #(get-cell row %) (range (min (first-cell-num row) 0) (max (last-cell-num row) min-cells))))))
+     (map #(get-cell row %)
+          (range (min (first-cell-num row) 0)
+                 (max (last-cell-num row) min-cells)))))
+  ([row min-cells missing-cell-policy]
+   (if (nil? row)
+     nil
+     (map #(get-cell row % missing-cell-policy)
+          (range (min (first-cell-num row) 0)
+                 (max (last-cell-num row) min-cells))))))
+
 
 (defn get-cell-formula
   "Returns the formula of the cell if the cell is of type :formula."
