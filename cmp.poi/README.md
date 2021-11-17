@@ -26,7 +26,7 @@ Now we create a brand new excel workbook with some sample data and write it to d
     "TestMACRO.xlsx"
     (xl/new-workbook {}
               (let [style1 (xl/new-cell-style {:fillForegroundColor (xl/color-index IndexedColors/AQUA)
-                                               :fillPattern (xl/cell-fill-style :solid-foreground)
+                                               :fillPattern (xl/fill-pattern-type :solid-foreground)
                                                :alignment (xl/horizontal-alignment :center)})]
                 (xl/new-sheet {}
                            (xl/new-row {}
