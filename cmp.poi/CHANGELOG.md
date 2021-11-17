@@ -3,7 +3,10 @@ Change Log
 
 Version 0.6.2
 -------------
-
+* updated to Apache POI 5.1.0
+* enhanced docstrings
+* fixed a bugs in all-sheet-values and get-all-cells
+* updated .gitignore for VS Code Calva
 
 Version 0.6.1
 -------------
