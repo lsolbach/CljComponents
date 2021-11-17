@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 0.6.3
+-------------
+* fixed color function to match POI API changes
+* added fill-pattern-type map for cell style use
+
 Version 0.6.2
 -------------
 * updated to Apache POI 5.1.0
