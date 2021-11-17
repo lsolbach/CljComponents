@@ -18,7 +18,7 @@
        (xl/get-all-cells)
        (count))))
 
-(deftest read-workbook-test
+(deftest workbook-test
   (let [wb (xl/create-workbook (io/file "data/test/Workbook1.xlsx")
                                {:missingCellPolicy return-null-and-blank})
         sheet1 (xl/get-sheet wb 0)
@@ -38,6 +38,16 @@
       (count-cells wb 2 1) 5
       (count-cells wb 2 2) 5
       (count-cells wb 2 3) 5)))
+
+(deftest color-test
+  (let [wb (xl/create-workbook {:missingCellPolicy return-null-and-blank})
+        c1 (xl/color wb 0x000000)
+        c2 (xl/color wb 0x777777)
+        c3 (xl/color wb 0xFFFFFF)]
+    (are [x y] (= x y)
+      (.isIndexed c1) false
+      (.isIndexed c2) false
+      (.isIndexed c3) false)))
 
 (comment
   (run-tests))

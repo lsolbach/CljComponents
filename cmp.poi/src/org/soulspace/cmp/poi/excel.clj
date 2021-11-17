@@ -14,8 +14,8 @@
             [org.soulspace.clj.java.type-conversion :as tc])
   (:import [org.apache.poi.poifs.filesystem POIFSFileSystem]
            [org.apache.poi.ss.util CellRangeAddress CellReference WorkbookUtil]
-           [org.apache.poi.ss.usermodel Cell CellStyle CellType DataFormat DateUtil Font
-                                        HorizontalAlignment IndexedColors PatternFormatting
+           [org.apache.poi.ss.usermodel Cell CellStyle CellType DataFormat DateUtil FillPatternType
+                                        Font HorizontalAlignment IndexedColors PatternFormatting
                                         Row Row$MissingCellPolicy Sheet SheetVisibility
                                         VerticalAlignment Workbook WorkbookFactory]
            [org.apache.poi.hssf.record.cf BorderFormatting]
@@ -96,7 +96,7 @@
    :thin                BorderFormatting/BORDER_THIN})
 
 (def cell-fill-style
-  "Maps keywords to PatternFormatting cell fill style values."
+  "Maps keywords to PatternFormatting cell style values."
   {:no-fill             PatternFormatting/NO_FILL
    :solid-foreground    PatternFormatting/SOLID_FOREGROUND
    :fine-dots           PatternFormatting/FINE_DOTS
@@ -117,6 +117,29 @@
    :less-dots           PatternFormatting/LESS_DOTS
    :least-dots          PatternFormatting/LEAST_DOTS})
 
+(def fill-pattern-type
+  "Maps keywords to FillPatternType cell style values."
+  {:alt-bars            FillPatternType/ALT_BARS
+   :big-spots           FillPatternType/BIG_SPOTS
+   :bricks              FillPatternType/BRICKS
+   :diamonds            FillPatternType/DIAMONDS
+   :fine-dots           FillPatternType/FINE_DOTS
+   :least-dots          FillPatternType/LEAST_DOTS
+   :less-dots           FillPatternType/LESS_DOTS
+   :no-fill             FillPatternType/NO_FILL
+   :solid-foreground    FillPatternType/SOLID_FOREGROUND
+   :sparse-dots         FillPatternType/SPARSE_DOTS
+   :squares             FillPatternType/SQUARES
+   :thick-backward-diag FillPatternType/THICK_BACKWARD_DIAG
+   :thick-forward-diag  FillPatternType/THICK_FORWARD_DIAG
+   :thick-horz-bands    FillPatternType/THICK_HORZ_BANDS
+   :thick-vert-bands    FillPatternType/THICK_VERT_BANDS
+   :thin-backward-diag  FillPatternType/THIN_BACKWARD_DIAG
+   :thin-forward-diag   FillPatternType/THIN_FORWARD_DIAG
+   :thin-horz-bands     FillPatternType/THIN_HORZ_BANDS
+   :thin-vert-bands     FillPatternType/THIN_VERT_BANDS
+   })
+
 (def picture-type-key
   
   (set/map-invert picture-type))
@@ -127,6 +150,7 @@
 (def vertical-alignment-key (set/map-invert vertical-alignment))
 (def cell-border-key (set/map-invert cell-border))
 (def cell-fill-style-key (set/map-invert cell-fill-style))
+(def fill-pattern-type-key (set/map-invert fill-pattern-type))
 
 ; defines the current values, which will be bound thread locally by the new and select macros
 (def ^{:dynamic true} *workbook*)
@@ -143,17 +167,26 @@
   [value]
   (tc/coerce java.lang.Integer/TYPE value))
 
-(defn color
-  "Creates an 'extended' color."
-  ([rgb]
-   (XSSFColor. (java.awt.Color. rgb)))
-  ([r g b]
-   (XSSFColor. (java.awt.Color. r g b))))
-
 (defn color-index
   "Returns the index of the color."
   [color]
   (.getIndex color))
+
+(defn get-indexed-color-map
+  "Returns the indexed color map of the workbooks styles source."
+  [wb]
+  (.getIndexedColors (.getStylesSource wb)))
+
+(defn color
+  "Creates an 'extended' color."
+  ([rgb]
+   (color *workbook* rgb))
+  ([wb rgb]
+   (XSSFColor. (java.awt.Color. rgb) (get-indexed-color-map wb)))
+  ([r g b]
+   (color *workbook* r g b))
+  ([wb r g b]
+   (XSSFColor. (java.awt.Color. r g b) (get-indexed-color-map wb))))
 
 (defn get-sheets
   "Returns a sequence of the sheets in the workbook."

@@ -15,7 +15,7 @@
 ;; this is the way I like to create excel workbooks from Clojure
 ;;
 (defn create-example
-  "Create new workbook, fill in some data and write it to disk."
+  "Creates new workbook, fills in some data and writes it to disk."
   []
   (xl/write-workbook 
     "TestMACRO.xlsx"
@@ -38,7 +38,7 @@
                                     (xl/new-cell {} 4.5)))))))
 
 (defn update-example
-  "Update an existing workbook with a new row of data in the first sheet."
+  "Updates an existing workbook with a new row of data in the first sheet."
   []
   (xl/with-workbook "TestMACRO.xlsx"
     (xl/select-sheet 0 {}
@@ -46,3 +46,7 @@
                 (xl/new-cell {} 1.5)
                 (xl/new-cell {} 2.5)
                 (xl/new-cell {} 3.5)))))
+
+(comment
+  (create-example)
+  (update-example))
